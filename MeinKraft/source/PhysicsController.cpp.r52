@@ -1,0 +1,185 @@
+#include "PhysicsController.h"
+#include "INISettings.h"
+#include "AABBCollider.h"
+#include "SphereCollider.h"
+#include "Ray.h"
+#include "Entity.h"
+#include "MathLib.h"
+#include "GameObject.h"
+#include "GameTime.h"
+
+PhysicsController::PhysicsController()
+{
+	m_gravity = INISettings::gravity;
+}
+
+PhysicsController::~PhysicsController()
+{
+}
+
+void PhysicsController::ApplyGravity(Entity& entity)
+{
+	entity.NormalizeAccelerationWithSpeed();
+	entity.AddAcceleration(m_gravity);
+	entity.ApplyDeltaTimeToAcceleration();
+}
+
+void PhysicsController::ComputeCollisions(Entity& entity, const std::vector<vecs::Vec3>& blockPositions)
+{
+	entity.ApplyAcceleration();
+
+	AABBCollider aabb;
+	SphereCollider sphere(entity.GetTransform().GetPosition(), entity.GetCapsule().GetRadius());
+	vecs::Vec3 capsulePosition;
+	float capsuleY = 0;
+
+	for (auto block : blockPositions)
+	{
+		aabb.SetCenter(block);
+		capsuleY = mathlib::Clamp(entity.GetTransform().GetPosition().y, entity.GetTransform().GetPosition().y + entity.GetCapsule().GetHalfHeight() * 2.f, capsuleY);
+		capsulePosition = vecs::Vec3(entity.GetTransform().GetPosition().x, capsuleY, entity.GetTransform().GetPosition().z);
+		sphere.SetCenter(capsulePosition);
+		vecs::Vec3 closestPoint = FindClosestPoint(sphere.GetCenter(), aabb);
+
+		if (mathlib::Distance(closestPoint, sphere.GetCenter()) < sphere.GetRadius())
+		{
+			vecs::Vec3 direction = sphere.GetCenter() - closestPoint;
+			if (direction != vecs::Vec3::Zero())
+			{
+				direction = mathlib::Normalize(direction);
+			}
+			entity.GetTransform().SetPosition(closestPoint + (direction * sphere.GetRadius()) + (entity.GetTransform().GetPosition() - capsulePosition));
+		}
+	}
+}
+
+vecs::Vec3 PhysicsController::FindClosestPoint(const vecs::Vec3& sphere, const AABBCollider& aabb)
+{
+	vecs::Vec3 result;
+	result.x = mathlib::Clamp(aabb.GetPointMin().x, aabb.GetPointMax().x, sphere.x);
+	result.y = mathlib::Clamp(aabb.GetPointMin().y, aabb.GetPointMax().y, sphere.y);
+	result.z = mathlib::Clamp(aabb.GetPointMin().z, aabb.GetPointMax().z, sphere.z);
+	return result;
+}
+
+/*vecs::Vec3 PhysicsController::FindNormal(const AABBCollider& aabb, const vecs::Vec3& closestPoint)
+{
+	vecs::Vec3 normal;
+	if (closestPoint.x == aabb.GetPointMax().x)
+		normal.x = 1.f;
+	else if (closestPoint.x == aabb.GetPointMin().x)
+		normal.x = -1.f;
+	else if (closestPoint.y == aabb.GetPointMax().y)
+		normal.y = 1.f;
+	else if (closestPoint.y == aabb.GetPointMin().y)
+		normal.y = -1.f;
+	else if (closestPoint.z == aabb.GetPointMax().z)
+		normal.z = 1.f;
+	else if (closestPoint.z == aabb.GetPointMin().z)
+		normal.z = -1.f;
+	return normal;
+}
+
+void PhysicsController::TestIfCollidableOnDir(Entity& entity, const std::vector<vecs::Vec3>& blockPositions)
+{
+	AABBCollider aabb;
+	SphereCollider sphere(entity.GetTransform().GetPosition(), 0.4f);
+	vecs::Vec3 Pos = entity.GetTransform().GetPosition();
+	vecs::Vec3 Dir = entity.GetAcceleration();
+	Ray rayDir(Pos, Dir);
+	Ray rayDirX(Pos, vecs::Vec3(Dir.x, 0.f, 0.f));
+	Ray rayDirZ(Pos, vecs::Vec3(0.f, 0.f, Dir.z));
+	float t = INFINITY;
+	float t2 = INFINITY;
+	float t3 = INFINITY;
+	unsigned int size = blockPositions.size();
+	for (unsigned int i = 0, count = size; i < count; ++i)
+	{
+		float t4 = INFINITY;
+		aabb.SetCenter(blockPositions[i]);
+		if (rayDir.Intersects(aabb, t4) && t4 < t)
+		{
+			t = t4;
+		}
+		float t5 = INFINITY;
+		if (rayDirX.Intersects(aabb, t5) && t5 < t2)
+		{
+			t2 = t5;
+		}
+		float t6 = INFINITY;
+		if (rayDirZ.Intersects(aabb, t6) && t6 < t3)
+		{
+			t3 = t6;
+		}
+	}
+	vecs::Vec3 NewPosDir = vecs::Vec3(INFINITY, INFINITY, INFINITY);
+	vecs::Vec3 NewPosDirX = vecs::Vec3(INFINITY, INFINITY, INFINITY);
+	vecs::Vec3 NewPosDirZ = vecs::Vec3(INFINITY, INFINITY, INFINITY);
+
+	float radius = sphere.GetRadius();
+
+	ComputeNewPosParameter param;
+	param.newPosDir = &NewPosDir, param.newPosDirX = &NewPosDirX,
+		param.newPosDirZ = &NewPosDirZ, param.radius = radius,
+		param.t = t, param.t2 = t2, param.t3 = t3, param.entity = &entity,
+		param.Pos = Pos, param.rayDir = rayDir.m_direction, param.rayDirX = rayDirX.m_direction,
+		param.rayDirZ = rayDirZ.m_direction;
+
+	ComputeNewPos(param);
+	FindNewPos(NewPosDir, NewPosDirX, NewPosDirZ, Pos, entity);
+}
+
+void PhysicsController::ComputeNewPos(ComputeNewPosParameter& parameter)
+{
+	if (parameter.t <= mathlib::Magnitude(parameter.entity->GetAcceleration()) + EPSILON || parameter.t <= parameter.radius + EPSILON)
+		*parameter.newPosDir = (parameter.Pos + (parameter.rayDir * (parameter.t - parameter.radius)));
+
+	if (parameter.t2 <= parameter.entity->GetAcceleration().x + EPSILON || parameter.t2 <= parameter.radius + EPSILON)
+		*parameter.newPosDirX = (parameter.Pos + (parameter.rayDirX * (parameter.t2 - parameter.radius)));
+
+	if (parameter.t3 <= parameter.entity->GetAcceleration().z + EPSILON || parameter.t3 <= parameter.radius + EPSILON)
+		*parameter.newPosDirZ = (parameter.Pos + (parameter.rayDirZ * (parameter.t3 - parameter.radius)));
+}
+
+void PhysicsController::FindNewPos(Vec3& NewPosDir, Vec3& NewPosDirX, Vec3& NewPosDirZ, const Vec3& Pos, Entity& entity)
+{
+	bool collisionX		= NewPosDirX	!= vecs::Vec3(INFINITY, INFINITY, INFINITY); // not INFINITY, so collision
+	bool collisionZ		= NewPosDirZ	!= vecs::Vec3(INFINITY, INFINITY, INFINITY); // not INFINITY, so collision
+	bool collisionPos	= NewPosDir		!= vecs::Vec3(INFINITY, INFINITY, INFINITY); // not INFINITY, so collision
+
+	if (collisionPos && !collisionZ && !collisionX)
+	{
+		entity.GetTransform().SetPosition(NewPosDir);
+		entity.SetAcceleration(vecs::Vec3::Zero());
+	}
+	else if (collisionPos && collisionZ && !collisionX)
+	{
+		NewPosDir.z = NewPosDirZ.z;
+		entity.GetTransform().SetPosition(NewPosDir + vecs::Vec3(entity.GetAcceleration().x, entity.GetAcceleration().y, 0.f));
+		entity.SetAcceleration(vecs::Vec3::Zero());
+	}
+	else if (collisionPos && collisionX && !collisionZ)
+	{
+		NewPosDir.x = NewPosDirX.x;
+		entity.GetTransform().SetPosition(NewPosDir + vecs::Vec3(0.f, entity.GetAcceleration().y, entity.GetAcceleration().z));
+		entity.SetAcceleration(vecs::Vec3::Zero());
+	}
+	else if (!collisionPos && collisionX && !collisionZ)
+	{
+		entity.GetTransform().SetPosition(NewPosDirX + vecs::Vec3(0.f, entity.GetAcceleration().y, entity.GetAcceleration().z));
+		entity.SetAcceleration(vecs::Vec3::Zero());
+	}
+	else if (!collisionPos && !collisionX && collisionZ)
+	{
+		entity.GetTransform().SetPosition(NewPosDirZ + vecs::Vec3(entity.GetAcceleration().x, entity.GetAcceleration().y, 0.f));
+		entity.SetAcceleration(vecs::Vec3::Zero());
+	}
+	else if (collisionPos && collisionX && collisionZ)
+	{
+		NewPosDir.x = NewPosDirZ.x;
+		NewPosDir.z = NewPosDirZ.z;
+		entity.GetTransform().SetPosition(NewPosDir);
+		entity.SetAcceleration(vecs::Vec3::Zero());
+	}
+}*/
+

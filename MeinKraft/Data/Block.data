@@ -1,0 +1,361 @@
+[Dirt]
+Max_Durability = 1.f
+Travel_Cost = 1
+Flags = BREAKABLE
+ID = 8191
+MinHeight = 24
+MaxHeight = 84
+VeinSizeMax = -1
+VeinSizeMin = -1
+	[Percent]
+		{ 24 , 0.1f }, { 38 , 3.f }, { 46 , 25.f }, { 56 , 70.5f }, { 64 , 97.f }, { 74 , 50.f }, { 84 , 10.f };
+TextureIDTop		= 2
+TextureIDDown		= 2
+TextureIDLeft		= 2
+TextureIDRight		= 2
+TextureIDForward	= 2
+TextureIDBackWard	= 2
+[Dirt]
+
+[Stone]
+Max_Durability = 2.f
+Travel_Cost = 1
+Flags = BREAKABLE
+ID = 8192
+MinHeight = 1
+MaxHeight = 255
+VeinSizeMax = -1
+VeinSizeMin = -1
+	[Percent]
+		{ 1 , 35.7f }, { 63 , 75.7f }, { 64 , 2.f }, { 70 , 20.f }, { 84 , 75.7.f }, { 92 , 43.8f }, { 120 , 35.f }, { 156 , 12.f };
+TextureIDTop		= 1
+TextureIDDown		= 1
+TextureIDLeft		= 1
+TextureIDRight		= 1
+TextureIDForward	= 1
+TextureIDBackWard	= 1
+[Stone]
+
+[Sand]
+Max_Durability = 1.f
+Travel_Cost = 2
+Flags = BREAKABLE
+ID = 8193
+MinHeight = 56
+MaxHeight = 84
+VeinSizeMax = -1
+VeinSizeMin = -1
+	[Percent]
+		{ 0 , 0.f }, { 255 , 0.f };  
+TextureIDTop		= 18
+TextureIDDown		= 18
+TextureIDLeft		= 18
+TextureIDRight		= 18
+TextureIDForward	= 18
+TextureIDBackWard	= 18
+[Sand]
+
+[IronOre]
+Max_Durability = 5.f
+Travel_Cost = 1
+Flags = BREAKABLE
+ID = 8194
+MinHeight = 10
+MaxHeight = 64
+VeinSizeMax = 15
+VeinSizeMin = 4
+	[Percent]
+		{ 10 , 0.1f }, { 15 , 0.8f }, { 26 , 1.5f }, { 29 , 3.5f }, { 35 , 2.7f }, { 42 , 2.9f }, { 53 , 1.2f }, { 63 , 0.05f };
+TextureIDTop		= 33
+TextureIDDown		= 33
+TextureIDLeft		= 33
+TextureIDRight		= 33
+TextureIDForward	= 33
+TextureIDBackWard	= 33
+[IronOre]
+
+[EmeraldOre]
+Max_Durability = 8.f
+Travel_Cost = 1
+Flags = BREAKABLE
+ID = 8195
+MinHeight = 2
+MaxHeight = 15
+VeinSizeMax = 2
+VeinSizeMin = 1
+	[Percent]
+		{ 2 , 0.01f }, {12 , 0.09f}, { 15 , 0.06f };
+TextureIDTop		= 170
+TextureIDDown		= 170
+TextureIDLeft		= 170
+TextureIDRight		= 170
+TextureIDForward	= 170
+TextureIDBackWard	= 170
+[EmeraldOre]
+
+[GoldOre]
+Max_Durability = 6.f
+Travel_Cost = 1
+Flags = BREAKABLE
+ID = 8196
+MinHeight = 5
+MaxHeight = 34
+VeinSizeMax = 10
+VeinSizeMin = 2
+	[Percent]
+		{ 5 , 0.5f }, { 10 , 0.9f }, { 18 , 1.5f }, { 26 , 1.2f }, { 34 , 0.4f };
+TextureIDTop		= 32
+TextureIDDown		= 32
+TextureIDLeft		= 32
+TextureIDRight		= 32
+TextureIDForward	= 32
+TextureIDBackWard	= 32
+[GoldOre]
+
+[DiamondOre]
+Max_Durability = 10.f
+Travel_Cost = 1
+Flags = BREAKABLE
+ID = 8197
+MinHeight = 1
+MaxHeight = 14
+VeinSizeMax = 6
+VeinSizeMin = 1
+	[Percent]
+		{ 1 , 0.5f }, { 5 , 0.2f }, { 10 , 0.35f }, { 14 , 0.05f };
+TextureIDTop		= 50
+TextureIDDown		= 50
+TextureIDLeft		= 50
+TextureIDRight		= 50
+TextureIDForward	= 50
+TextureIDBackWard	= 50
+[DiamondOre]
+
+[Obsidian]
+Max_Durability = 25.f
+Travel_Cost = 1
+Flags = BREAKABLE
+ID = 8198
+MinHeight = 1
+MaxHeight = 5
+VeinSizeMax = 25
+VeinSizeMin = 5
+	[Percent]
+		{ 1 , 5.f }, { 3 , 8.f }, { 5 , 2.f };
+TextureIDTop		= 183
+TextureIDDown		= 183
+TextureIDLeft		= 183
+TextureIDRight		= 183
+TextureIDForward	= 183
+TextureIDBackWard	= 183
+[Obsidian]
+
+[BedRock]
+Max_Durability = -1.f
+Travel_Cost = 1
+Flags = NONE
+ID = 8199
+MinHeight = 0
+MaxHeight = 3
+VeinSizeMax = -1
+VeinSizeMin = -1
+	[Percent]
+		{ 0 , 100.f }, { 3 , 90.f };
+TextureIDTop		= 17
+TextureIDDown		= 17
+TextureIDLeft		= 17
+TextureIDRight		= 17
+TextureIDForward	= 17
+TextureIDBackWard	= 17
+[BedRock]
+
+[Snow]
+Max_Durability = 1.f
+Travel_Cost = 1
+Flags = BREAKABLE
+ID = 8200
+MinHeight = 128
+MaxHeight = 255
+VeinSizeMax = -1
+VeinSizeMin = -1
+	[Percent]
+		{ 128 , 25.f }, { 155 , 65.f }, { 204 , 99.9f };
+TextureIDTop		= 66
+TextureIDDown		= 66
+TextureIDLeft		= 66
+TextureIDRight		= 66
+TextureIDForward	= 66
+TextureIDBackWard	= 66
+[Snow]
+
+[Grass]
+Max_Durability = 1.f
+Travel_Cost = 1
+Flags = BREAKABLE
+ID = 8201
+MinHeight = 56
+MaxHeight = 84
+VeinSizeMax = -1
+VeinSizeMin = -1
+	[Percent]
+		{ 64 , 99.f }, { 74 , 75.7.f }, { 84 , 75.7.f };
+TextureIDTop		= 0
+TextureIDDown		= 2
+TextureIDLeft		= 3
+TextureIDRight		= 3
+TextureIDForward	= 3
+TextureIDBackWard	= 3
+[Grass]
+
+[Glass]
+Max_Durability = 0.5f
+Travel_Cost = 1
+Flags = BREAKABLE | TRANSPARENT
+ID = 8202
+MinHeight = 24
+MaxHeight = 84
+VeinSizeMax = -1
+VeinSizeMin = -1
+	[Percent]
+		{ 24 , 0.1f }, { 38 , 3.f }, { 46 , 25.f }, { 56 , 70.5f }, { 64 , 97.f }, { 74 , 50.f }, { 84 , 10.f };
+TextureIDTop		= 49
+TextureIDDown		= 49
+TextureIDLeft		= 49
+TextureIDRight		= 49
+TextureIDForward	= 49
+TextureIDBackWard	= 49
+[Glass]
+
+[SnowyGrass]
+Max_Durability = 1.f
+Travel_Cost = 1
+Flags = BREAKABLE
+ID = 8203
+MinHeight = 64
+MaxHeight = 110
+VeinSizeMax = -1
+VeinSizeMin = -1
+	[Percent]
+		{ 64 , 99.f }, { 74 , 75.7.f }, { 84 , 10.f }, { 96 , 84.f }, { 110 , 58.f };
+TextureIDTop		= 66
+TextureIDDown		= 68
+TextureIDLeft		= 68
+TextureIDRight		= 68
+TextureIDForward	= 68
+TextureIDBackWard	= 68
+[SnowyGrass]
+
+[RedstoneOre]
+Max_Durability = 7.f
+Travel_Cost = 1
+Flags = BREAKABLE
+ID = 8204
+MinHeight = 10
+MaxHeight = 56
+VeinSizeMax = -1
+VeinSizeMin = -1
+	[Percent]
+		{ 10 , 0.1f }, { 15 , 0.7f }, { 23 , 2.f }, { 31 , 5.f }, { 46 , 2.7f }, { 56 , 1.f };
+TextureIDTop		= 51
+TextureIDDown		= 51
+TextureIDLeft		= 51
+TextureIDRight		= 51
+TextureIDForward	= 51
+TextureIDBackWard	= 51
+[RedstoneOre]
+
+[CoalOre]
+Max_Durability = 3.f
+Travel_Cost = 1
+Flags = BREAKABLE
+ID = 8205
+MinHeight = 10
+MaxHeight = 56
+VeinSizeMax = -1
+VeinSizeMin = -1
+	[Percent]
+		{ 10 , 0.5f }, { 15 , 0.9f }, { 23 , 2.8f }, { 31 , 8.5f }, { 46 , 6.f }, { 56 , 0.5f };
+TextureIDTop		= 34
+TextureIDDown		= 34
+TextureIDLeft		= 34
+TextureIDRight		= 34
+TextureIDForward	= 34
+TextureIDBackWard	= 34
+[CoalOre]
+
+[Gravel]
+Max_Durability = 2.f
+Travel_Cost = 1
+Flags = BREAKABLE
+ID = 8206
+MinHeight = 10
+MaxHeight = 128
+VeinSizeMax = -1
+VeinSizeMin = -1
+	[Percent]
+		{ 10 , 5.5f }, { 15 , 8.9f }, { 23 , 12.8f }, { 31 , 8.5f }, { 46 , 6.f }, { 56 , 3.5f }, { 86 , 13.5f }, { 128 , 11.5f };
+TextureIDTop		= 19
+TextureIDDown		= 19
+TextureIDLeft		= 19
+TextureIDRight		= 19
+TextureIDForward	= 19
+TextureIDBackWard	= 19
+[Gravel]
+
+[Mycellium]
+Max_Durability = 2.f
+Travel_Cost = 1
+Flags = BREAKABLE
+ID = 8207
+MinHeight = 10
+MaxHeight = 128
+VeinSizeMax = -1
+VeinSizeMin = -1
+	[Percent]
+		{ 24 , 0.1f }, { 38 , 3.f }, { 46 , 25.f }, { 56 , 70.5f }, { 64 , 97.f }, { 74 , 50.f }, { 84 , 10.f };
+TextureIDTop		= 78
+TextureIDDown		= 77
+TextureIDLeft		= 77
+TextureIDRight		= 77
+TextureIDForward	= 77
+TextureIDBackWard	= 77
+[Mycellium]
+
+
+[Air]
+Max_Durability = -1.f
+Travel_Cost = 1
+Flags = TRANSPARENT
+ID = -2
+MinHeight = 1
+MaxHeight = 255
+VeinSizeMax = -1
+VeinSizeMin = -1
+	[Percent]
+		{ 1 , 0.00f }, { 31 , 0.0f }, { 86 , 0.0f };  
+TextureIDTop		= 180
+TextureIDDown		= 180
+TextureIDLeft		= 180
+TextureIDRight		= 180
+TextureIDForward	= 180
+TextureIDBackWard	= 180
+[Air]
+
+[Error]
+Max_Durability = -1.f
+Travel_Cost = 1
+Flags = NONE
+ID = -1
+MinHeight = 1
+MaxHeight = 255
+VeinSizeMax = -1
+VeinSizeMin = -1
+	[Percent]
+		{ 0 , 0.f }, { 255 , 0.f };  
+TextureIDTop		= -1
+TextureIDDown		= -1
+TextureIDLeft		= -1
+TextureIDRight		= -1
+TextureIDForward	= -1
+TextureIDBackWard	= -1
+[Error]

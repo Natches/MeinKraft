@@ -1,0 +1,321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{6974EC8B-C709-4CDB-9BF3-91DCC55FBBA0}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>MeinKraft</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseIntelMKL>No</UseIntelMKL>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <TargetName>$(ProjectName)_$(Configuration)</TargetName>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <SourcePath>$(ProjectDir)source;$(SourcePath)</SourcePath>
+    <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <TargetName>$(ProjectName)_$(Configuration)$(Platform)</TargetName>
+    <OutDir>$(SolutionDir)bin\$(Configuration)$(Platform)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <TargetName>$(ProjectName)_$(Configuration)</TargetName>
+    <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(ProjectDir)lib\VECTOR\Include;</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <TargetName>$(ProjectName)_$(Configuration)$(Platform)</TargetName>
+    <OutDir>$(SolutionDir)bin\$(Configuration)$(Platform)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>__RENDER_THREAD__;WIN32; D_SCL_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)lib\VECTOR\Include;$(ProjectDir)lib\SFML\include;$(ProjectDir)lib\THREAD\include;$(ProjectDir)include;$(ProjectDir)lib\GLFW;$(ProjectDir)lib\GLEW;$(ProjectDir)lib\VLD;C:\Dev\glm;$(ProjectDir)lib/SOIL</AdditionalIncludeDirectories>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <OutputFile>$(SolutionDir)bin\$(Configuration)\$(TargetFileName)</OutputFile>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\SFML\lib;$(ProjectDir)lib\VECTOR;$(ProjectDir)lib\THREAD;$(ProjectDir)lib\GLFW;$(ProjectDir)lib\GLEW;$(ProjectDir)lib\VLD;$(ProjectDir)lib/SOIL;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>openal32.lib;sfml-audio-d.lib;Container.lib;ThreadPoolLib.lib;SOIL.lib;vld.lib;glew32.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LargeAddressAware>true</LargeAddressAware>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)lib/GLFW;$(ProjectDir)lib/GLEW;$(ProjectDir)lib/VLD;$(ProjectDir)include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;vld.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib/GLFW/x64;$(ProjectDir)lib/GLEW/x64;$(ProjectDir)lib/VLD/x64;</AdditionalLibraryDirectories>
+      <OutputFile>$(OutDir)</OutputFile>
+      <LargeAddressAware>true</LargeAddressAware>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32; D_SCL_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)lib\GLFW;$(ProjectDir)lib\GLEW;$(ProjectDir)lib\VLD;$(ProjectDir)lib\SOIL;$(ProjectDir)lib\SFML\include;$(ProjectDir)lib\THREAD\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32; D_SCL_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)lib\GLFW;$(ProjectDir)lib\GLEW;$(ProjectDir)lib\VLD;$(ProjectDir)lib\SOIL;$(ProjectDir)lib\THREAD\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions> WIN32; D_SCL_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)lib\SFML\include;$(ProjectDir)include;$(ProjectDir)lib\GLFW;$(ProjectDir)lib\GLEW;$(ProjectDir)lib\SOIL;$(ProjectDir)lib\THREAD\include;$(ProjectDir)lib\VLD</AdditionalIncludeDirectories>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <OptimizeForWindowsApplication>true</OptimizeForWindowsApplication>
+      <Parallelization>true</Parallelization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>$(SolutionDir)bin\$(Configuration)\$(TargetFileName)</OutputFile>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\GLFW;$(ProjectDir)lib\GLEW;$(ProjectDir)lib\VLD;$(ProjectDir)lib\SOIL;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SOIL.lib;vld.lib;glew32.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\GLFW;$(ProjectDir)lib\SOIL;$(ProjectDir)lib\GLEW;$(ProjectDir)lib\SFML\lib;$(ProjectDir)lib\VLD;$(ProjectDir)lib\THREAD\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ThreadPoolLib.lib;sfml-audio.lib;SOIL.lib;vld.lib;glew32.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\GLFW;$(ProjectDir)lib\SOIL;$(ProjectDir)lib\GLEW;$(ProjectDir)lib\VLD;$(ProjectDir)lib\THREAD\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ThreadPoolLib.lib;SOIL.lib;vld.lib;glew32.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib\SFML\lib;$(ProjectDir)lib\VLD;$(ProjectDir)lib\GLFW;$(ProjectDir)lib\SOIL;$(ProjectDir)lib\GLEW;$(ProjectDir)lib\THREAD\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vld.lib;openal32.lib;sfml-audio.lib;ThreadPoolLib.lib;SOIL.lib;glew32.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <HeapReserveSize>
+      </HeapReserveSize>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <LargeAddressAware>true</LargeAddressAware>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)lib/GLFW;$(ProjectDir)lib/GLEW;$(ProjectDir)lib/VLD;$(ProjectDir)include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>$(OutDir)</OutputFile>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)lib/GLFW/x64;$(ProjectDir)lib/GLEW/x64;</AdditionalLibraryDirectories>
+      <LargeAddressAware>true</LargeAddressAware>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="source\AABBCollider.cpp" />
+    <ClCompile Include="source\Biome.cpp" />
+    <ClCompile Include="source\BiomeLibrary.cpp" />
+    <ClCompile Include="source\Block.cpp" />
+    <ClCompile Include="source\BlockLibrary.cpp" />
+    <ClCompile Include="source\Button.cpp" />
+    <ClCompile Include="source\CapsuleCollider.cpp" />
+    <ClCompile Include="source\Font.cpp" />
+    <ClCompile Include="source\GUI.cpp" />
+    <ClCompile Include="source\Inventory.cpp" />
+    <ClCompile Include="source\FileUtils.cpp" />
+    <ClCompile Include="source\InventorySlot.cpp" />
+    <ClCompile Include="source\Item.cpp" />
+    <ClCompile Include="source\ItemData.cpp" />
+    <ClCompile Include="source\ItemLibrary.cpp" />
+    <ClCompile Include="source\ItemStack.cpp" />
+    <ClCompile Include="source\MapComputeShader.cpp" />
+    <ClCompile Include="source\Camera.cpp" />
+    <ClCompile Include="source\Chunk.cpp" />
+    <ClCompile Include="source\ChunkSubdivision.cpp" />
+    <ClCompile Include="source\Collider.cpp" />
+    <ClCompile Include="source\CollisionUtils.cpp" />
+    <ClCompile Include="source\DefaultErrorShader.cpp" />
+    <ClCompile Include="source\Entity.cpp" />
+    <ClCompile Include="source\ExampleClass.cpp" />
+    <ClCompile Include="source\Game.cpp" />
+    <ClCompile Include="source\GameObject.cpp" />
+    <ClCompile Include="source\INISettings.cpp" />
+    <ClCompile Include="source\Inputs.cpp" />
+    <ClCompile Include="source\Log.cpp" />
+    <ClCompile Include="source\Main.cpp" />
+    <ClCompile Include="source\MathLib.cpp" />
+    <ClCompile Include="source\Menu.cpp" />
+    <ClCompile Include="source\PhysicsController.cpp" />
+    <ClCompile Include="source\Player.cpp" />
+    <ClCompile Include="source\Quaternion.cpp" />
+    <ClCompile Include="source\Ray.cpp" />
+    <ClCompile Include="source\Renderer.cpp" />
+    <ClCompile Include="source\Matrix4x4.cpp" />
+    <ClCompile Include="source\CubeShader.cpp" />
+    <ClCompile Include="source\Renderer2D.cpp" />
+    <ClCompile Include="source\Shader.cpp" />
+    <ClCompile Include="source\Shader2D.cpp" />
+    <ClCompile Include="source\ShaderLib.cpp" />
+    <ClCompile Include="source\GameTime.cpp" />
+    <ClCompile Include="source\SoundController.cpp" />
+    <ClCompile Include="source\SphereCollider.cpp" />
+    <ClCompile Include="source\StringUtils.cpp" />
+    <ClCompile Include="source\Text.cpp" />
+    <ClCompile Include="source\Transform.cpp" />
+    <ClCompile Include="source\Vec2.cpp" />
+    <ClCompile Include="source\Vec3.cpp" />
+    <ClCompile Include="source\Vec4.cpp" />
+    <ClCompile Include="source\World.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\AABBCollider.h" />
+    <ClInclude Include="include\Biome.h" />
+    <ClInclude Include="include\BiomeLibrary.h" />
+    <ClInclude Include="include\Block.h" />
+    <ClInclude Include="include\BlockLibrary.h" />
+    <ClInclude Include="include\Button.h" />
+    <ClInclude Include="include\CapsuleCollider.h" />
+    <ClInclude Include="include\Font.h" />
+    <ClInclude Include="include\GUI.h" />
+    <ClInclude Include="include\Inventory.h" />
+    <ClInclude Include="include\InventorySlot.h" />
+    <ClInclude Include="include\Item.h" />
+    <ClInclude Include="include\ItemData.h" />
+    <ClInclude Include="include\ItemLibrary.h" />
+    <ClInclude Include="include\ItemStack.h" />
+    <ClInclude Include="include\FileUtils.h" />
+    <ClInclude Include="include\MapComputeShader.h" />
+    <ClInclude Include="include\Camera.h" />
+    <ClInclude Include="include\Chunk.h" />
+    <ClInclude Include="include\ChunkSubdivision.h" />
+    <ClInclude Include="include\Collider.h" />
+    <ClInclude Include="include\CollisionUtils.h" />
+    <ClInclude Include="include\DefaultErrorShader.h" />
+    <ClInclude Include="include\Entity.h" />
+    <ClInclude Include="include\ExampleClass.h" />
+    <ClInclude Include="include\Game.h" />
+    <ClInclude Include="include\GameObject.h" />
+    <ClInclude Include="include\INISettings.h" />
+    <ClInclude Include="include\Inputs.h" />
+    <ClInclude Include="include\Log.h" />
+    <ClInclude Include="include\MathLib.h" />
+    <ClInclude Include="include\Matrix4x4.h" />
+    <ClInclude Include="include\Menu.h" />
+    <ClInclude Include="include\PhysicsController.h" />
+    <ClInclude Include="include\Quaternion.h" />
+    <ClInclude Include="include\CubeShader.h" />
+    <ClInclude Include="include\Ray.h" />
+    <ClInclude Include="include\Shader.h" />
+    <ClInclude Include="include\ShaderLib.h" />
+    <ClInclude Include="include\Player.h" />
+    <ClInclude Include="include\Renderer.h" />
+    <ClInclude Include="include\GameTime.h" />
+    <ClInclude Include="include\SoundController.h" />
+    <ClInclude Include="include\SphereCollider.h" />
+    <ClInclude Include="include\StringUtils.h" />
+    <ClInclude Include="include\Text.h" />
+    <ClInclude Include="include\Transform.h" />
+    <ClInclude Include="include\Vec2.h" />
+    <ClInclude Include="include\Vec3.h" />
+    <ClInclude Include="include\Vec4.h" />
+    <ClInclude Include="include\World.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="Data\Biomes.data" />
+    <None Include="Data\Block.data" />
+    <None Include="Data\Generation.data" />
+    <None Include="include\MathLib_impl.h" />
+    <None Include="Shader\MapShader.comp" />
+    <None Include="Shader\CubeGeomShader.geom" />
+    <None Include="Shader\CubeFragShader.frag" />
+    <None Include="Shader\CubeVertShader.vert" />
+    <None Include="Shader\ErrorShader.frag" />
+    <None Include="Shader\ErrorShader.geom" />
+    <None Include="Shader\ErrorShader.vert" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

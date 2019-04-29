@@ -1,0 +1,26 @@
+#include "PhysicsController.h"
+#include "INISettings.h"
+#include "AABBCollider.h"
+#include "SphereCollider.h"
+#include "Ray.h"
+#include "Entity.h"
+#include "MathLib.h"
+#include "GameObject.h"
+#include "GameTime.h"
+
+PhysicsController::PhysicsController()
+{
+	m_gravity = INISettings::gravity;
+}
+
+PhysicsController::~PhysicsController()
+{
+}
+
+void PhysicsController::ApplyGravity(Entity& entity)
+{
+	entity.AddAcceleration(m_gravity);
+}
+
+
+
