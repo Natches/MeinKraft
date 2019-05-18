@@ -9,7 +9,7 @@ MeinKraft is my End of first year project at Isart Digital Montreal. With the cl
 - Language : C++
 - Graphic API : OpenGL
 	
-## What I have done:
+## What have I done:
 We were 3 on this project so obviously I didn't do everything myself, my parts were :
 
 - OpenGL Rendering, the rendering is achieved using a Geometry Shader which construct every cube. Using this, we were able to save some space by just sending the cube position to the GPU (3 floats vs 9 floats).
