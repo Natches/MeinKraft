@@ -27,15 +27,15 @@ Keyword :
 ### Noise Algorithm:
 As noise algorithm, I use a custom one. It use a 2D Gaussian function to create white point on an "image".
 
-![alt text](image/gaussian.jpg?raw=true "2D Gaussian Function")
+<img src="image/gaussian.jpg" width="360">
 
 Having an image with multiple Gaussian function required me to subdivide the "image" in lower square.
 
-![alt text](image/multiple-gaussian.jpg?raw=true "Multiple Gaussian")
+<img src="image/multiple-gaussian.jpg" width="360">
 
 Finally from this having a correct noise is not hard, we just need to blur the "image".
 
-![alt text](image/noise.jpg?raw=true "Final Noise")
+<img src="image/noise.jpg" width="360">
 
 This noise algorithm is good however it's quite heavy, a 2D Gaussian function use the exponantial function, some division as well as power, moreover, bluring an image is quite heavy because it require us to iterate over every pixel, the larger the image is the longer it is to blur it.
 This final noise was used as a Heightmap for a region and each pixel were a cube in the world.
