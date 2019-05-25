@@ -30,6 +30,7 @@ protected:
 	virtual bool  CreateFragmentShader	(const std::string& FilePath)					= 0;
 	bool		  Load_File				(const GLuint ID, const std::string& FilePath);
 	void		  CheckError			(const GLuint ID);
-	bool LoadTexture					(GLuint& ID, const std::string& path, int* width, int* height);
+public:
+	static bool LoadTexture					(GLuint& ID, const std::string& path, int* width, int* height);
 };
 

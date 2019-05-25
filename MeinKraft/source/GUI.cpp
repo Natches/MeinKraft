@@ -423,16 +423,14 @@ void GUI::Draw(Shader* shader)
 	if (m_menu->IsVisible())
 	{
 		glBindVertexArray(m_menuVAO);
-		glActiveTexture(GL_TEXTURE0 + m_menuTexture);
-		glBindTexture(GL_TEXTURE_2D, m_menuTexture);
-		glUniform1i(((Shader2D*)shader)->GetUniformTextureLocation(), m_menuTexture);
+		glBindTextureUnit(0, m_menuTexture);
+		glUniform1i(((Shader2D*)shader)->GetUniformTextureLocation(), 0);
 		glUniform4f(((Shader2D*)shader)->GetUniformColourLocation(), m_invColour.x, m_invColour.y, m_invColour.z, m_invColour.w);
 		glDrawArrays(GL_TRIANGLES, 0, m_menuPoints);
 
 		glBindVertexArray(m_titleVAO);
-		glActiveTexture(GL_TEXTURE0 + m_titleTexture);
-		glBindTexture(GL_TEXTURE_2D, m_titleTexture);
-		glUniform1i(((Shader2D*)shader)->GetUniformTextureLocation(), m_titleTexture);
+		glBindTextureUnit(0, m_titleTexture);
+		glUniform1i(((Shader2D*)shader)->GetUniformTextureLocation(), 0);
 		glUniform4f(((Shader2D*)shader)->GetUniformColourLocation(), m_invColour.x, m_invColour.y, m_invColour.z, m_invColour.w);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 	}
@@ -449,32 +447,28 @@ void GUI::Draw(Shader* shader)
 			if (m_inventory->IsVisible())
 			{
 				glBindVertexArray(m_invVAO);
-				glActiveTexture(GL_TEXTURE0 + m_invTexture);
-				glBindTexture(GL_TEXTURE_2D, m_invTexture);
-				glUniform1i(((Shader2D*)shader)->GetUniformTextureLocation(), m_invTexture);
+				glBindTextureUnit(0, m_invTexture);
+				glUniform1i(((Shader2D*)shader)->GetUniformTextureLocation(), 0);
 				glUniform4f(((Shader2D*)shader)->GetUniformColourLocation(), m_invColour.x, m_invColour.y, m_invColour.z, m_invColour.w);
 				glDrawArrays(GL_TRIANGLES, 0, m_invTotalPoints);
 
 				glBindVertexArray(m_inventoryTextVAO);
-				glActiveTexture(GL_TEXTURE0 + m_font->GetTexture());
-				glBindTexture(GL_TEXTURE_2D, m_font->GetTexture());
-				glUniform1i(((Shader2D*)shader)->GetUniformTextureLocation(), m_font->GetTexture());
+				glBindTextureUnit(0, m_font->GetTexture());
+				glUniform1i(((Shader2D*)shader)->GetUniformTextureLocation(), 0);
 				glUniform4f(((Shader2D*)shader)->GetUniformColourLocation(), m_textColour.x, m_textColour.y, m_textColour.z, m_textColour.w);
 				glDrawArrays(GL_TRIANGLES, 0, m_invTextTotalPoints);
 			}
 			else
 			{
 				glBindVertexArray(m_HBVAO);
-				glActiveTexture(GL_TEXTURE0 + m_invTexture);
-				glBindTexture(GL_TEXTURE_2D, m_invTexture);
-				glUniform1i(((Shader2D*)shader)->GetUniformTextureLocation(), m_invTexture);
+				glBindTextureUnit(0, m_invTexture);
+				glUniform1i(((Shader2D*)shader)->GetUniformTextureLocation(), 0);
 				glUniform4f(((Shader2D*)shader)->GetUniformColourLocation(), m_invColour.x, m_invColour.y, m_invColour.z, m_invColour.w);
 				glDrawArrays(GL_TRIANGLES, 0, m_hotbarTotalPoints);
 
 				glBindVertexArray(m_HBTextVAO);
-				glActiveTexture(GL_TEXTURE0 + m_font->GetTexture());
-				glBindTexture(GL_TEXTURE_2D, m_font->GetTexture());
-				glUniform1i(((Shader2D*)shader)->GetUniformTextureLocation(), m_font->GetTexture());
+				glBindTextureUnit(0, m_font->GetTexture());
+				glUniform1i(((Shader2D*)shader)->GetUniformTextureLocation(), 0);
 				glUniform4f(((Shader2D*)shader)->GetUniformColourLocation(), m_textColour.x, m_textColour.y, m_textColour.z, m_textColour.w);
 				glDrawArrays(GL_TRIANGLES, 0, m_hotbarTextTotalPoints);
 			}
@@ -492,9 +486,9 @@ void GUI::Draw(Shader* shader)
 						m_inventory->SetIsItemDescriptionDirty(false);
 					}
 					glBindVertexArray(m_mouseTextVAO);
-					glActiveTexture(GL_TEXTURE0 + m_font->GetTexture());
-					glBindTexture(GL_TEXTURE_2D, m_font->GetTexture());
-					glUniform1i(((Shader2D*)shader)->GetUniformTextureLocation(), m_font->GetTexture());
+					glBindTextureUnit(0, m_font->GetTexture());
+
+					glUniform1i(((Shader2D*)shader)->GetUniformTextureLocation(), 0);
 					glUniform4f(((Shader2D*)shader)->GetUniformColourLocation(), m_textColour.x, m_textColour.y, m_textColour.z, m_textColour.w);
 					glDrawArrays(GL_TRIANGLES, 0, m_mouseTextPoints);
 				}
@@ -508,9 +502,8 @@ void GUI::Draw(Shader* shader)
 					BuildPickedItemVAO();
 
 				glBindVertexArray(m_PickedItemVAO);
-				glActiveTexture(GL_TEXTURE0 + m_invTexture);
-				glBindTexture(GL_TEXTURE_2D, m_invTexture);
-				glUniform1i(((Shader2D*)shader)->GetUniformTextureLocation(), m_invTexture);
+				glBindTextureUnit(0, m_invTexture);
+				glUniform1i(((Shader2D*)shader)->GetUniformTextureLocation(), 0);
 				glUniform4f(((Shader2D*)shader)->GetUniformColourLocation(), m_invColour.x, m_invColour.y, m_invColour.z, m_invColour.w);
 				glDrawArrays(GL_TRIANGLES, 0, 6);
 			}
@@ -521,9 +514,8 @@ void GUI::Draw(Shader* shader)
 		if (m_dirtyText)
 			BuildTextVAO();
 		glBindVertexArray(m_textVAO);
-		glActiveTexture(GL_TEXTURE0 + m_font->GetTexture());
-		glBindTexture(GL_TEXTURE_2D, m_font->GetTexture());
-		glUniform1i(((Shader2D*)shader)->GetUniformTextureLocation(), m_font->GetTexture());
+		glBindTextureUnit(0, m_font->GetTexture());
+		glUniform1i(((Shader2D*)shader)->GetUniformTextureLocation(), 0);
 		if(m_menu->IsVisible())
 			glUniform4f(((Shader2D*)shader)->GetUniformColourLocation(), 0,0,0, m_textColour.w);
 		else
@@ -537,67 +529,11 @@ void GUI::Draw(Shader* shader)
 void GUI::SetInvTexture(const char * path)
 {
 	int x = 0, y = 0;
-	unsigned char * image_data = SOIL_load_image(path, &x, &y, 0, SOIL_LOAD_RGBA);
-	//unsigned char* image_data = stbi_load(file_name, &x, &y, &n, force_channels);
-	if (!image_data) {
-		return;
-	}
-	glGenTextures(1, &m_invTexture);
-	glActiveTexture(GL_TEXTURE0 + m_invTexture);
-	glBindTexture(GL_TEXTURE_2D, m_invTexture);
-	glTexImage2D(
-		GL_TEXTURE_2D,
-		0,
-		GL_RGBA,
-		x,
-		y,
-		0,
-		GL_RGBA,
-		GL_UNSIGNED_BYTE,
-		image_data
-	);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	GLfloat max_aniso = 0.0f;
-	glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &max_aniso);
-	// set the maximum!
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, max_aniso);
-	SOIL_free_image_data(image_data);
+	Shader::LoadTexture(m_invTexture, path, &x, &y);
 }
 
 void GUI::SetMenuTexture(const char * path)
 {
 	int x = 0, y = 0;
-	unsigned char * image_data = SOIL_load_image(path, &x, &y, 0, SOIL_LOAD_RGBA);
-	//unsigned char* image_data = stbi_load(file_name, &x, &y, &n, force_channels);
-	if (!image_data) {
-		return;
-	}
-	glGenTextures(1, &m_menuTexture);
-	glActiveTexture(GL_TEXTURE0 + m_menuTexture);
-	glBindTexture(GL_TEXTURE_2D, m_menuTexture);
-	glTexImage2D(
-		GL_TEXTURE_2D,
-		0,
-		GL_RGBA,
-		x,
-		y,
-		0,
-		GL_RGBA,
-		GL_UNSIGNED_BYTE,
-		image_data
-	);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	GLfloat max_aniso = 0.0f;
-	glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &max_aniso);
-	// set the maximum!
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, max_aniso);
-	SOIL_free_image_data(image_data);
+	Shader::LoadTexture(m_menuTexture, path, &x, &y);
 }

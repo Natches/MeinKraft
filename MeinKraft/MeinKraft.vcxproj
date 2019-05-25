@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <OutDir>$(SolutionDir)\Binaries\$(ProjectName)\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)\$(ProjectName)\Intermediate\$(Configuration)\$(Platform)\</IntDir>
@@ -79,7 +79,7 @@
     <IncludePath>$(ProjectDir)include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
+    <LinkIncremental>false</LinkIncremental>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <OutDir>$(SolutionDir)\Binaries\$(ProjectName)\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(ProjectDir)\$(ProjectName)\Intermediate\$(Configuration)\$(Platform)\</IntDir>
@@ -103,7 +103,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>__RENDER_THREAD__;WIN32; D_SCL_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)lib\SFML\include;$(ProjectDir)include;$(ProjectDir)lib\GLFW;$(ProjectDir)lib\GLEW;$(ProjectDir)lib\SOIL;$(ProjectDir)lib\THREAD\include;$(ProjectDir)lib\VLD</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\SFML\include;$(ProjectDir)include;$(ProjectDir)ThirdParty\GLFW\include;$(ProjectDir)ThirdParty\GLEW\include;$(ProjectDir)ThirdParty\STB\include;$(ProjectDir)ThirdParty\THREAD\include;$(ProjectDir)ThirdParty\VLD\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -111,11 +111,18 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib\SFML\lib;$(ProjectDir)lib\VLD;$(ProjectDir)lib\GLFW;$(ProjectDir)lib\SOIL;$(ProjectDir)lib\GLEW;$(ProjectDir)lib\THREAD\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>sfml-audio-d.lib;vld.lib;ThreadPoolLib.lib;SOIL.lib;vld.lib;glew32.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)ThirdParty\GLFW\lib\$(Platform);$(ProjectDir)ThirdParty\GLEW\lib\$(Configuration)\$(Platform);$(ProjectDir)ThirdParty\SFML\lib\$(Platform);$(ProjectDir)ThirdParty\THREAD\lib\$(Configuration)\$(Platform);$(ProjectDir)ThirdParty\VLD\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;openal32.lib;glew32.lib;glfw3dll.lib;ThreadPoolLib.lib;vld.lib;sfml-audio-d.lib;sfml-system-d.lib;</AdditionalDependencies>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /e /r "$(ProjectDir)Resources" "$(OutDir)"
+xcopy /y /e /r "$(ProjectDir)ThirdParty\GLEW\bin\$(Configuration)\$(Platform)" "$(OutDir)"
+xcopy /y /e /r "$(ProjectDir)ThirdParty\GLFW\bin\$(Platform)" "$(OutDir)"
+xcopy /y /e /r "$(ProjectDir)ThirdParty\SFML\bin\$(Platform)\$(Configuration)" "$(OutDir)"
+xcopy /y /e /r "$(ProjectDir)ThirdParty\VLD\bin\$(Platform)" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -124,18 +131,25 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)lib\SFML\include;$(ProjectDir)include;$(ProjectDir)lib\GLFW;$(ProjectDir)lib\GLEW;$(ProjectDir)lib\SOIL;$(ProjectDir)lib\THREAD\include;$(ProjectDir)lib\VLD</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\SFML\include;$(ProjectDir)include;$(ProjectDir)ThirdParty\GLFW\include;$(ProjectDir)ThirdParty\GLEW\include;$(ProjectDir)ThirdParty\STB\include;$(ProjectDir)ThirdParty\THREAD\include;$(ProjectDir)ThirdParty\VLD\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;vld.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib/GLFW/x64;$(ProjectDir)lib/GLEW/x64;$(ProjectDir)lib\THREAD\$(Configuration)\$(Platform);$(ProjectDir)lib/VLD/x64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;openal32.lib;glew32.lib;glfw3dll.lib;ThreadPoolLib.lib;vld.lib;sfml-audio-d.lib;sfml-system-d.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)ThirdParty\GLFW\lib\$(Platform);$(ProjectDir)ThirdParty\GLEW\lib\$(Configuration)\$(Platform);$(ProjectDir)ThirdParty\SFML\lib\$(Platform);$(ProjectDir)ThirdParty\THREAD\lib\$(Configuration)\$(Platform);$(ProjectDir)ThirdParty\VLD\lib\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /e /r "$(ProjectDir)Resources" "$(OutDir)"
+xcopy /y /e /r "$(ProjectDir)ThirdParty\GLEW\bin\$(Configuration)\$(Platform)" "$(OutDir)"
+xcopy /y /e /r "$(ProjectDir)ThirdParty\GLFW\bin\$(Platform)" "$(OutDir)"
+xcopy /y /e /r "$(ProjectDir)ThirdParty\SFML\bin\$(Platform)\$(Configuration)" "$(OutDir)"
+xcopy /y /e /r "$(ProjectDir)ThirdParty\VLD\bin\$(Platform)" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -150,7 +164,7 @@
       <PreprocessorDefinitions>WIN32; D_SCL_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)lib\GLFW;$(ProjectDir)lib\GLEW;$(ProjectDir)lib\VLD;$(ProjectDir)lib\SOIL;$(ProjectDir)lib\THREAD\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions> WIN32; D_SCL_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)lib\SFML\include;$(ProjectDir)include;$(ProjectDir)lib\GLFW;$(ProjectDir)lib\GLEW;$(ProjectDir)lib\SOIL;$(ProjectDir)lib\THREAD\include;$(ProjectDir)lib\VLD</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\SFML\include;$(ProjectDir)include;$(ProjectDir)ThirdParty\GLFW\include;$(ProjectDir)ThirdParty\GLEW\include;$(ProjectDir)ThirdParty\STB\include;$(ProjectDir)ThirdParty\THREAD\include;$(ProjectDir)ThirdParty\VLD\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>false</TreatWarningAsError>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
@@ -168,12 +182,18 @@
       <AdditionalDependencies>ThreadPoolLib.lib;sfml-audio.lib;SOIL.lib;vld.lib;glew32.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)lib\GLFW;$(ProjectDir)lib\SOIL;$(ProjectDir)lib\GLEW;$(ProjectDir)lib\VLD;$(ProjectDir)lib\THREAD\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>ThreadPoolLib.lib;SOIL.lib;vld.lib;glew32.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib\SFML\lib;$(ProjectDir)lib\GLFW;$(ProjectDir)lib\SOIL;$(ProjectDir)lib\GLEW;$(ProjectDir)lib\THREAD\$(Configuration)\$(Platform)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>openal32.lib;sfml-audio.lib;ThreadPoolLib.lib;SOIL.lib;glew32.lib;glfw3.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)ThirdParty\GLFW\lib\$(Platform);$(ProjectDir)ThirdParty\GLEW\lib\$(Configuration)\$(Platform);$(ProjectDir)ThirdParty\SFML\lib\$(Platform);$(ProjectDir)ThirdParty\THREAD\lib\$(Configuration)\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;openal32.lib;glew32.lib;glfw3dll.lib;ThreadPoolLib.lib;sfml-audio.lib;sfml-system.lib;</AdditionalDependencies>
       <HeapReserveSize>
       </HeapReserveSize>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /e /r "$(ProjectDir)Resources" "$(OutDir)"
+xcopy /y /e /r "$(ProjectDir)ThirdParty\GLEW\bin\$(Configuration)\$(Platform)" "$(OutDir)"
+xcopy /y /e /r "$(ProjectDir)ThirdParty\GLFW\bin\$(Platform)" "$(OutDir)"
+xcopy /y /e /r "$(ProjectDir)ThirdParty\SFML\bin\$(Platform)\$(Configuration)" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -184,7 +204,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)lib\SFML\include;$(ProjectDir)include;$(ProjectDir)lib\GLFW;$(ProjectDir)lib\GLEW;$(ProjectDir)lib\SOIL;$(ProjectDir)lib\THREAD\include;$(ProjectDir)lib\VLD</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)ThirdParty\SFML\include;$(ProjectDir)include;$(ProjectDir)ThirdParty\GLFW\include;$(ProjectDir)ThirdParty\GLEW\include;$(ProjectDir)ThirdParty\STB\include;$(ProjectDir)ThirdParty\THREAD\include;$(ProjectDir)ThirdParty\VLD\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
@@ -193,10 +213,16 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-      <AdditionalDependencies>opengl32.lib;glew32.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)lib/GLFW/x64;$(ProjectDir)lib/GLEW/x64;$(ProjectDir)lib\THREAD\$(Configuration)\$(Platform);</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;openal32.lib;glew32.lib;glfw3dll.lib;ThreadPoolLib.lib;sfml-audio.lib;sfml-system.lib;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)ThirdParty\GLFW\lib\$(Platform);$(ProjectDir)ThirdParty\GLEW\lib\$(Configuration)\$(Platform);$(ProjectDir)ThirdParty\SFML\lib\$(Platform);$(ProjectDir)ThirdParty\THREAD\lib\$(Configuration)\$(Platform);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <LinkTimeCodeGeneration>Default</LinkTimeCodeGeneration>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /e /r "$(ProjectDir)Resources" "$(OutDir)"
+xcopy /y /e /r "$(ProjectDir)ThirdParty\GLEW\bin\$(Configuration)\$(Platform)" "$(OutDir)"
+xcopy /y /e /r "$(ProjectDir)ThirdParty\GLFW\bin\$(Platform)" "$(OutDir)"
+xcopy /y /e /r "$(ProjectDir)ThirdParty\SFML\bin\$(Platform)\$(Configuration)" "$(OutDir)"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\AABBCollider.cpp" />
@@ -215,7 +241,6 @@
     <ClCompile Include="source\ItemData.cpp" />
     <ClCompile Include="source\ItemLibrary.cpp" />
     <ClCompile Include="source\ItemStack.cpp" />
-    <ClCompile Include="source\MapComputeShader.cpp" />
     <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\Chunk.cpp" />
     <ClCompile Include="source\ChunkSubdivision.cpp" />
@@ -276,7 +301,6 @@
     <ClInclude Include="include\ItemLibrary.h" />
     <ClInclude Include="include\ItemStack.h" />
     <ClInclude Include="include\FileUtils.h" />
-    <ClInclude Include="include\MapComputeShader.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\Chunk.h" />
     <ClInclude Include="include\ChunkSubdivision.h" />
@@ -318,13 +342,14 @@
     <None Include="Data\Block.data" />
     <None Include="Data\Generation.data" />
     <None Include="include\MathLib_impl.h" />
-    <None Include="Shader\MapShader.comp" />
-    <None Include="Shader\CubeGeomShader.geom" />
-    <None Include="Shader\CubeFragShader.frag" />
-    <None Include="Shader\CubeVertShader.vert" />
-    <None Include="Shader\ErrorShader.frag" />
-    <None Include="Shader\ErrorShader.geom" />
-    <None Include="Shader\ErrorShader.vert" />
+    <None Include="Resources\Shader\CubeFragShader.frag" />
+    <None Include="Resources\Shader\CubeGeomShader.geom" />
+    <None Include="Resources\Shader\CubeVertShader.vert" />
+    <None Include="Resources\Shader\ErrorShader.frag" />
+    <None Include="Resources\Shader\ErrorShader.geom" />
+    <None Include="Resources\Shader\ErrorShader.vert" />
+    <None Include="Resources\Shader\Shader2D.frag" />
+    <None Include="Resources\Shader\Shader2D.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

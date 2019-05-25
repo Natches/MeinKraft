@@ -43,9 +43,6 @@
     <Filter Include="Header Files\World">
       <UniqueIdentifier>{6672907e-46f4-4fbe-8fc8-4b4fc433fb04}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Shader\MapComputeShader">
-      <UniqueIdentifier>{9b639a77-6d1c-4baf-8872-286330384315}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Component">
       <UniqueIdentifier>{ecf378d8-7d39-43f2-9295-aefb953b159e}</UniqueIdentifier>
     </Filter>
@@ -75,6 +72,9 @@
     </Filter>
     <Filter Include="Source Files\Gui">
       <UniqueIdentifier>{a57c3e9c-8bac-466b-870e-d20ed78dc3f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shader\Shader2D">
+      <UniqueIdentifier>{64eaf93c-a7b2-4f36-8159-57c84b1553f1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -131,9 +131,6 @@
     </ClCompile>
     <ClCompile Include="source\Block.cpp">
       <Filter>Source Files\World</Filter>
-    </ClCompile>
-    <ClCompile Include="source\MapComputeShader.cpp">
-      <Filter>Source Files\Shader</Filter>
     </ClCompile>
     <ClCompile Include="source\Renderer.cpp">
       <Filter>Source Files\Core</Filter>
@@ -314,9 +311,6 @@
     <ClInclude Include="include\World.h">
       <Filter>Header Files\World</Filter>
     </ClInclude>
-    <ClInclude Include="include\MapComputeShader.h">
-      <Filter>Header Files\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="include\Game.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
@@ -428,27 +422,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
-    <None Include="Shader\CubeGeomShader.geom">
-      <Filter>Source Files\Shader\CubeShader</Filter>
-    </None>
-    <None Include="Shader\CubeVertShader.vert">
-      <Filter>Source Files\Shader\CubeShader</Filter>
-    </None>
-    <None Include="Shader\CubeFragShader.frag">
-      <Filter>Source Files\Shader\CubeShader</Filter>
-    </None>
-    <None Include="Shader\ErrorShader.vert">
-      <Filter>Source Files\Shader\DefaultErrorShader</Filter>
-    </None>
-    <None Include="Shader\ErrorShader.frag">
-      <Filter>Source Files\Shader\DefaultErrorShader</Filter>
-    </None>
-    <None Include="Shader\ErrorShader.geom">
-      <Filter>Source Files\Shader\DefaultErrorShader</Filter>
-    </None>
-    <None Include="Shader\MapShader.comp">
-      <Filter>Source Files\Shader\MapComputeShader</Filter>
-    </None>
     <None Include="include\MathLib_impl.h">
       <Filter>Header Files\Maths</Filter>
     </None>
@@ -460,6 +433,30 @@
     </None>
     <None Include="Data\Generation.data">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\Shader\CubeGeomShader.geom">
+      <Filter>Source Files\Shader\CubeShader</Filter>
+    </None>
+    <None Include="Resources\Shader\CubeVertShader.vert">
+      <Filter>Source Files\Shader\CubeShader</Filter>
+    </None>
+    <None Include="Resources\Shader\CubeFragShader.frag">
+      <Filter>Source Files\Shader\CubeShader</Filter>
+    </None>
+    <None Include="Resources\Shader\ErrorShader.geom">
+      <Filter>Source Files\Shader\DefaultErrorShader</Filter>
+    </None>
+    <None Include="Resources\Shader\ErrorShader.vert">
+      <Filter>Source Files\Shader\DefaultErrorShader</Filter>
+    </None>
+    <None Include="Resources\Shader\ErrorShader.frag">
+      <Filter>Source Files\Shader\DefaultErrorShader</Filter>
+    </None>
+    <None Include="Resources\Shader\Shader2D.frag">
+      <Filter>Source Files\Shader\Shader2D</Filter>
+    </None>
+    <None Include="Resources\Shader\Shader2D.vert">
+      <Filter>Source Files\Shader\Shader2D</Filter>
     </None>
   </ItemGroup>
 </Project>

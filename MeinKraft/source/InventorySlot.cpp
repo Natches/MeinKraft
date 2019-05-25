@@ -2,7 +2,6 @@
 #include "ItemStack.h"
 #include "ItemLibrary.h"
 #include "Text.h"
-#include "SOIL.h"
 #include "INISettings.h"
 
 InventorySlot::InventorySlot(vecs::Vec2 pos, vecs::Vec2 dimentions, ItemStack* itemStack, ItemLibrary* lib, Font * font) :

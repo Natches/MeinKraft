@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <map>
-#include <SFML\Audio.hpp>
+#include <SFML/Audio.hpp>
 
 #define DEFAULT_ID			-1
 #define DEFAULT_NAME		std::string("grass1.ogg")

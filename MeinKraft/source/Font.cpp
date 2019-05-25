@@ -1,37 +1,10 @@
 #include "Font.h"
+#include <Shader.h>
 
 void Font::Initialize(const char * pathToTexture)
 {
 	int x = 0, y = 0;
-	unsigned char * image_data = SOIL_load_image(pathToTexture, &x, &y, 0, SOIL_LOAD_RGBA);
-	//unsigned char* image_data = stbi_load(file_name, &x, &y, &n, force_channels);
-	if (!image_data) {
-		return;
-	}
-	glGenTextures(1, &m_texture);
-	glActiveTexture(GL_TEXTURE0 + m_texture);
-	glBindTexture(GL_TEXTURE_2D, m_texture);
-	glTexImage2D(
-		GL_TEXTURE_2D,
-		0,
-		GL_RGBA,
-		x,
-		y,
-		0,
-		GL_RGBA,
-		GL_UNSIGNED_BYTE,
-		image_data
-	);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	GLfloat max_aniso = 0.0f;
-	glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &max_aniso);
-	// set the maximum!
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, max_aniso);
-	SOIL_free_image_data(image_data);
+	Shader::LoadTexture(m_texture, pathToTexture, &x, &y);
 }
 
 Font::Font(const char * pathToTexture)

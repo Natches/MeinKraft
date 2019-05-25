@@ -3,6 +3,8 @@
 #include "Game.h"
 #include "GUI.h"
 #include "Inventory.h"
+#include "INISettings.h"
+#include "Text.h"
 
 Menu::Menu(Font* font, Game* game, GUI* gui):
 	m_game(game),
@@ -13,37 +15,9 @@ Menu::Menu(Font* font, Game* game, GUI* gui):
 	float QuitOffset = 80.f;
 	m_buttons.push_back(new Button(std::bind(&Menu::CloseMenu, this), "Play", font, vecs::Vec2(0 - buttonDimensions.x / INISettings::windowWidth / 2, 0), buttonDimensions));
 	m_buttons.push_back(new Button(std::bind(&Game::ExitGame, m_game), "Quit", font, vecs::Vec2(0 - buttonDimensions.x / INISettings::windowWidth / 2, 0 - buttonDimensions.y/INISettings::windowHeight - QuitOffset / INISettings::windowHeight), buttonDimensions));
-	
+
 	int x = 0, y = 0;
-	unsigned char * image_data = SOIL_load_image("Assets/title.png", &x, &y, 0, SOIL_LOAD_RGBA);
-	//unsigned char* image_data = stbi_load(file_name, &x, &y, &n, force_channels);
-	if (!image_data) {
-		return;
-	}
-	glGenTextures(1, &m_titleTexture);
-	glActiveTexture(GL_TEXTURE0 + m_titleTexture);
-	glBindTexture(GL_TEXTURE_2D, m_titleTexture);
-	glTexImage2D(
-		GL_TEXTURE_2D,
-		0,
-		GL_RGBA,
-		x,
-		y,
-		0,
-		GL_RGBA,
-		GL_UNSIGNED_BYTE,
-		image_data
-	);
-	glGenerateMipmap(GL_TEXTURE_2D);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	GLfloat max_aniso = 0.0f;
-	glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &max_aniso);
-	// set the maximum!
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, max_aniso);
-	SOIL_free_image_data(image_data);
+	Shader::LoadTexture(m_titleTexture, "Assets/title.png", &x, &y);
 	m_gui->SetTitleTexture(m_titleTexture);
 
 	vecs::Vec2 pos(-0.5f, 0.9f);

@@ -4,7 +4,6 @@
 #include "CubeShader.h"
 #include "GLFW/glfw3.h"
 #include "iostream"
-#include "SOIL.h"
 #include "INISettings.h"
 #include "MathLib.h"
 #include "Chunk.h"
@@ -31,7 +30,8 @@ void CubeShader::Update(const ShaderParameter& param)
 	glUniform3fv(m_cameraPosLocation, 1, param.camPos);
 	glUniform3fv(m_cameraDirLocation, 1, param.camDir);
 	glUniform3fv(m_wireframeColorLocation, 1, param.color);
-	glUniform1i(m_textureMapLocation, m_textureMapID);
+	glBindTextureUnit(0, m_textureMapID);
+	glUniform1i(m_textureMapLocation, 0);
 	glUniform1i(m_isWireframeLocation, param.wireframe);
 	glUniform1f(m_offsetLocation, 32);
 	glUniform1f(m_cameraFovLocation, mathlib::toRadian * (180.f));

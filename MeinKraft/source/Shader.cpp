@@ -2,7 +2,9 @@
 #include <fstream>
 #include <sstream>
 #include "Shader.h"
-#include "SOIL.h"
+
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 
 
 bool Shader::Load_File(const GLuint ID, const std::string& FilePath)
@@ -49,72 +51,27 @@ void Shader::CheckError(const GLuint ID)
 
 bool Shader::LoadTexture(GLuint& ID, const std::string& path, int* width, int* height)
 {
-	unsigned char* img = SOIL_load_image(path.c_str(), width, height, NULL, SOIL_LOAD_AUTO);
-	if (img)
+	int n = 0;
+	int force_channels = 4;
+	unsigned char * image_data = stbi_load(path.c_str(), width, height, &n, force_channels);
+	if (image_data)
 	{
-		glGenTextures(1, &ID);
-		glActiveTexture(GL_TEXTURE0 + ID);
-		glBindTexture(GL_TEXTURE_2D, ID);
-
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, *width, *height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img);
-
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		
-		glActiveTexture(GL_TEXTURE0 + ID + 1);
+		int nearestWidthPowerofTwo = std::floor(std::log(*width) / std::log(2));
+		int nearestHeightPowerofTwo = std::floor(std::log(*height) / std::log(2));
+		glCreateTextures(GL_TEXTURE_2D, 1, &ID);
+		glTextureStorage2D(ID, nearestWidthPowerofTwo <= nearestHeightPowerofTwo ? nearestWidthPowerofTwo : nearestHeightPowerofTwo, GL_RGBA8, *width, *height);
+		glTextureSubImage2D(ID, 0, 0, 0, *width, *height, GL_RGBA,
+			GL_UNSIGNED_BYTE, image_data);
+		glTextureParameteri(ID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTextureParameteri(ID, GL_TEXTURE_WRAP_R, GL_REPEAT);
+		glTextureParameteri(ID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(ID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTextureParameteri(ID, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
 		glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST);
-		glGenerateMipmap(GL_TEXTURE_2D);
+		glGenerateTextureMipmap(ID);
 
-		SOIL_free_image_data(img);
+		stbi_image_free(image_data);
 		return true;
 	}
 	return false;
 }
-
-
-/*
-// layout(local_size_x = 1, local_size_y = 1) in;
-*
-
-layout(binding = 0, RGBA32F) uniform image2D img_out;
-
-uniform float A = 128.f;
-uniform float B = 1.f / (2.f * (8.f * 8.f));
-uniform float C = 1.f / (2.f * (8.f * 8.f));
-
-shared float AS;
-
-float rand(vec2 co)
-{
-	return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);
-}
-
-void GenHeightMap()
-{
-	for (int idx = 0; idx < 8; ++idx)
-	{
-		//if( int(rand(vec2(idx, rand(vec2(gl_WorkGroupID.x, gl_WorkGroupID.y))))) %  2 == 0);
-		//{		
-		//barrier();
-		//memoryBarrierShared();
-		ivec2 pos = ivec2(gl_GlobalInvocationID.xy);
-		//float demiMaxX = gl_GlobalInvocationID.x - gl_WorkGroupSize.x;
-		//float demiMaxY = gl_GlobalInvocationID.y - gl_WorkGroupSize.y;
-		//AS += rand(vec2(rand(vec2(idx, gl_WorkGroupID.x)), gl_WorkGroupID.y));
-		//float a = AS;
-		//float value = a * exp(-((((gl_WorkGroupID.x - demiMaxX) * (gl_WorkGroupID.x - demiMaxX)) * B) + (((gl_WorkGroupID.y - demiMaxY) * (gl_WorkGroupID.y - demiMaxY))  * C)));
-		imageStore(img_out, pos, vec4(0.f, 0.f, 1.f, 1.f));
-		//}
-	}
-}
-
-void main()
-{
-	//AS = A;
-	//GenHeightMap();
-	ivec2 pos = ivec2(gl_GlobalInvocationID.xy);
-	imageStore(img_out, pos, vec4(0.f, 0.f, 0.f, 1.f));
-}*/

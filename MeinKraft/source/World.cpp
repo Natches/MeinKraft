@@ -5,7 +5,6 @@
 #include "World.h"
 #include "CubeShader.h"
 #include "DefaultErrorShader.h"
-#include "MapComputeShader.h"
 #include "INISettings.h"
 #include "Shader2D.h"
 #include "PoolThread.h"

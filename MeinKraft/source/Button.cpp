@@ -1,4 +1,5 @@
 #include "Button.h"
+#include "Text.h"
 #define CHAR_SEPARATION 20.f
 
 

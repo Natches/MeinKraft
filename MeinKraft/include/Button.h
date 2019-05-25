@@ -1,11 +1,12 @@
 #pragma once
 #include <vector>
 #include <GL\glew.h>
-#include "Text.h"
-#include "Font.h"
 #include "Vec2.h"
 #include <functional>
 
+
+class Text;
+class Font;
 class Button
 {
 	std::vector<GLfloat>	m_vertexData;
