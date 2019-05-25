@@ -8,8 +8,8 @@
 InventorySlot::InventorySlot(vecs::Vec2 pos, vecs::Vec2 dimentions, ItemStack* itemStack, ItemLibrary* lib, Font * font) :
 	m_position(pos),
 	m_dimensions(dimentions),
-	m_itemStack(itemStack),
-	m_library(lib)
+	m_library(lib),
+	m_itemStack(itemStack)
 {
 	m_text = new Text(itemStack != nullptr ? std::to_string((int)itemStack->m_quantity) : "", font, 100.f/900.f * INISettings::windowHeight, vecs::Vec2(pos.x, pos.y));
 	

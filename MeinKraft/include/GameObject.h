@@ -25,6 +25,6 @@ public:
 #pragma region Getters & Setters
 public:
 	inline Transform&	 GetTransform() noexcept { return m_transform; }
-	inline const __int16 GetID() const noexcept { return m_ID; }
+	inline __int16 GetID() const noexcept { return m_ID; }
 #pragma endregion
 };

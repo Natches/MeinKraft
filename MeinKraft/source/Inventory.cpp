@@ -183,7 +183,6 @@ void Inventory::TakeSplitStack()
 		positionOfMouse.y -= INISettings::windowHeight / 2.f;
 		positionOfMouse.y /= INISettings::windowHeight / 2.f;
 		positionOfMouse.y *= -1;
-		ItemStack * IS = nullptr;
 		for (unsigned int i = 0; i < m_inventorySlots.size(); ++i)
 		{
 			if (m_inventorySlots[i]->mouseCollision(positionOfMouse))
@@ -259,7 +258,7 @@ bool Inventory::AddItem(ItemStack * stack)
 	if (slotsWithSameItemID.find(stack->m_itemID) == slotsWithSameItemID.end())
 	{
 		slotsWithSameItemID[stack->m_itemID] = std::vector<int>();
-		for (int i = 0; i < m_inventorySlots.size(); ++i)
+		for (unsigned int i = 0; i < m_inventorySlots.size(); ++i)
 		{
 			if (m_inventorySlots[i]->GetItemStack() != nullptr && m_inventorySlots[i]->GetItemStack()->m_itemID == stack->m_itemID && m_inventorySlots[i]->GetItemStack()->m_quantity < MAXSTACK)
 				slotsWithSameItemID[stack->m_itemID].push_back(i);
@@ -268,7 +267,7 @@ bool Inventory::AddItem(ItemStack * stack)
 	else
 	{
 		slotsWithSameItemID[stack->m_itemID].clear();
-		for (int i = 0; i < m_inventorySlots.size(); ++i)
+		for (unsigned int i = 0; i < m_inventorySlots.size(); ++i)
 		{
 			if (m_inventorySlots[i]->GetItemStack() != nullptr && m_inventorySlots[i]->GetItemStack()->m_itemID == stack->m_itemID && m_inventorySlots[i]->GetItemStack()->m_quantity < MAXSTACK)
 				slotsWithSameItemID[stack->m_itemID].push_back(i);
@@ -277,7 +276,7 @@ bool Inventory::AddItem(ItemStack * stack)
 
 	if (slotsWithSameItemID[stack->m_itemID].size() > 0)
 	{
-		for (int i = 0; i < slotsWithSameItemID[stack->m_itemID].size(); ++i)
+		for (unsigned int i = 0; i < slotsWithSameItemID[stack->m_itemID].size(); ++i)
 		{
 			m_inventorySlots[slotsWithSameItemID[stack->m_itemID][i]]->GetItemStack()->m_quantity += stack->m_quantity;
 			if (m_inventorySlots[slotsWithSameItemID[stack->m_itemID][i]]->GetItemStack()->m_quantity > MAXSTACK)
@@ -297,7 +296,7 @@ bool Inventory::AddItem(ItemStack * stack)
 			}
 		}
 	}
-	for (int i = 0; i < m_inventorySlots.size(); ++i)
+	for (unsigned int i = 0; i < m_inventorySlots.size(); ++i)
 	{
 		if (m_inventorySlots[i]->GetItemStack() == nullptr)
 		{
@@ -311,7 +310,7 @@ bool Inventory::AddItem(ItemStack * stack)
 	return false;
 }
 
-void Inventory::ToggleInventory(GUI* gui)
+void Inventory::ToggleInventory()
 {
 	m_visible = !m_visible;
 	if (m_visible)
@@ -339,7 +338,7 @@ void Inventory::DropOneItemInSlot(int id)
 std::string Inventory::SaveData()
 {
 	std::string data;
-	for (int i = 0; i < m_inventorySlots.size(); ++i)
+	for (unsigned int i = 0; i < m_inventorySlots.size(); ++i)
 	{
 		if (m_inventorySlots[i]->GetItemStack())
 		{

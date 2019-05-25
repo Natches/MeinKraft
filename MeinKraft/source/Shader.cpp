@@ -15,7 +15,7 @@ bool Shader::Load_File(const GLuint ID, const std::string& FilePath)
 		std::stringstream shaderStream;
 		shaderStream << File.rdbuf();
 		File.close();
-		std::string& shaderStr = shaderStream.str();
+		std::string shaderStr = shaderStream.str();
 		const char* shaderSrc = shaderStr.c_str();
 
 		glShaderSource(ID, 1, &shaderSrc, NULL);
@@ -30,6 +30,7 @@ bool Shader::Load_File(const GLuint ID, const std::string& FilePath)
 
 void Shader::CheckError(const GLuint ID)
 {
+	(void)ID;
 #ifdef _DEBUG
 	GLint LengthLastOp;
 	glGetShaderiv(ID, GL_INFO_LOG_LENGTH, &LengthLastOp);
@@ -37,7 +38,8 @@ void Shader::CheckError(const GLuint ID)
 	{
 		GLchar* Log = new GLchar[LengthLastOp + 1];
 		glGetShaderInfoLog(ID, LengthLastOp, 0, Log);
-		std::string error; error += "Failed To Load Shader with ID :" + ID + '\n';
+		std::string error; 
+		error += "Failed To Load Shader with ID :" + std::to_string(ID) + '\n';
 		error += (const char*)Log;
 		throw std::exception(error.c_str());
 		Clean();
@@ -56,12 +58,16 @@ bool Shader::LoadTexture(GLuint& ID, const std::string& path, int* width, int* h
 
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, *width, *height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img);
 
-		glGenerateMipmap(GL_TEXTURE_2D);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		
+		glActiveTexture(GL_TEXTURE0 + ID + 1);
+		glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
 		SOIL_free_image_data(img);
 		return true;
 	}

@@ -4,7 +4,7 @@
 #include "GL/glew.h"
 #include "Vec3.h"
 #include "BiomeLibrary.h"
-#include "BlockLibrary.h"
+#include "BlockLibrary.h"	
 #include "World.h"
 
 class CubeShader;
@@ -15,11 +15,11 @@ class Chunk
 {
 public:
 	Chunk() = delete;
-	Chunk(vecs::Vec3& Pos, uint8_t BiomeId);
+	Chunk(vecs::Vec3 Pos, uint8_t BiomeId);
 	~Chunk();
 
 	void CreateChunk(const biomes::BiomeLibrary& biomeLib, const block::BlockLibrary& blockLib, world::World& world);
-	void Render(const block::BlockLibrary& blockLib, CubeShader& shader, const ShaderParameter& param, world::World& w);
+	void Render(const block::BlockLibrary& blockLib, CubeShader& shader, const ShaderParameter& param);
 	block::Block* GetBlock(const vecs::Vec3& pos);
 	bool IsInBound(const vecs::Vec3& pos);
 	bool IsInBoundGlobal(const vecs::Vec3& pos);
@@ -36,7 +36,7 @@ public:
 
 private:
 	void ParseHeightMapData(unsigned char(*heightMap)[Zmax], const biomes::BiomeLibrary& biomeLib, const block::BlockLibrary& blockLib);
-	void InitBlockToSort(std::pair<uint16_t, float>* sortedAvailableBlock, const biomes::BiomeLibrary& biomeLib, const block::BlockLibrary& blockLib);
+	void InitBlockToSort(std::pair<uint16_t, float>* sortedAvailableBlock, const biomes::BiomeLibrary& biomeLib);
 	void SortAvailableBlock(int y, std::pair<uint16_t, float>* sortedAvailableBlock, const biomes::BiomeLibrary& biomeLib, const block::BlockLibrary& blockLib);
 	void GenerateVAO();
 	void GenerateVector(const block::BlockLibrary& blockLib);
@@ -47,7 +47,7 @@ private:
 	bool UpdateChunkList(std::stringstream& file, int& nbChunk);
 	void UpdateChunkNumber(std::stringstream& file, int& nbChunk);
 	bool IsThisFileFree(const std::string& file);
-	void OcclusionCheck(const block::BlockLibrary& blockLibrary, world::World& world);
+	void OcclusionCheck(const block::BlockLibrary& blockLibrary);
 	void ComputeSkyOcclusion(const block::BlockLibrary& blockLibrary);
 	void ComputeLightLevel(int index, unsigned char temp[6], const block::BlockLibrary& blockLibrary);
 
@@ -67,9 +67,6 @@ private:
 	std::vector<unsigned char> SCALEVBO;
 	std::vector<unsigned char> TEXVBO;
 	std::vector<unsigned char> TEXVBO2;
-
-	unsigned sizeVbo, scaleVbo, textureVbo, textureVbo2;
-
 	/*std::vector<unsigned char> LIGHTVBO;
 	std::vector<unsigned char> LIGHTVBO2;*/
 

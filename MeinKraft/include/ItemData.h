@@ -14,18 +14,18 @@ class ItemData
 	float			m_XPosInTexture;
 	float			m_YPosInTexture;
 	E_ITEMFLAGS		m_flags;
-	char*			m_name;
+	const char*			m_name;
 #pragma endregion
 #pragma region Non-Static Methods
 public:
 	ItemData() = default;
-	ItemData(float X, float Y, char* name, E_ITEMFLAGS flags);
+	ItemData(float X, float Y, const char* name, E_ITEMFLAGS flags);
 	~ItemData();
 #pragma endregion
 #pragma region Getters & Setters
 	inline float GetX() { return m_XPosInTexture; }
 	inline float GetY() { return m_YPosInTexture; }
-	inline char* GetName() { return m_name; }
+	inline const char* GetName() { return m_name; }
 #pragma endregion
 };
 

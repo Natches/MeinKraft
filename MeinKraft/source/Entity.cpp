@@ -1,5 +1,5 @@
 #include "Entity.h"
-#include "mathlib.h"
+#include "MathLib.h"
 #include "GameTime.h"
 #include "Ray.h"
 #include "World.h"

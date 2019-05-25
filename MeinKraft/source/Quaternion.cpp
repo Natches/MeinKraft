@@ -1,5 +1,5 @@
 #include "Quaternion.h"
-#include "Mathlib.h"
+#include "MathLib.h"
 
 namespace rotation
 {

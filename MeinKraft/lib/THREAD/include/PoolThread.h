@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 #ifdef __RENDER_THREAD__
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"

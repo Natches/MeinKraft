@@ -66,15 +66,15 @@ namespace world
 	{
 		vecs::Vec3 dir = vecs::Vec3(param.camDir[0], 0.f, param.camDir[2]);
 		m_worldMutex.lock();
-		for each (auto& chunk  in m_chunkList)
+		for (auto& chunk : m_chunkList)
 		{
 			vecs::Vec3 CamToChunk = mathlib::Direction(vecs::Vec3(param.camPos[0], 0.f, param.camPos[2]), chunk.second->GetPos());
-
+			
 			if ((!mathlib::IsSameDirection(dir, CamToChunk) &&
 				mathlib::Magnitude(CamToChunk) < DefaultWidth * MULTIPLIER_BEHIND_US_FOR_RENDERING) ||
 				mathlib::IsSameDirection(dir, CamToChunk))
 			{
-				chunk.second->Render(m_blockLibrary, *(CubeShader*)(m_shaderLib.GetShader("CubeShader")), param, *this);
+				chunk.second->Render(m_blockLibrary, *(CubeShader*)(m_shaderLib.GetShader("CubeShader")), param);
 			}
 		}
 		m_worldMutex.unlock();
@@ -173,7 +173,6 @@ namespace world
 	void World::UpdateChunkLists(const vecs::Vec2& playerPos)
 	{
 		vecs::Vec3 playerChunk = vecs::Vec3(floor(playerPos.x / DefaultWidth) * DefaultWidth, 0.f, floor(playerPos.y / DefaultDepth)  * DefaultDepth);
-		ThreadLib::PoolThread& pool = ThreadLib::PoolThread::getInstance();
 		std::vector<vecs::Vec3> ChunkToGen;
 		for (int i = (-INISettings::viewDistance - 1); i <= INISettings::viewDistance + 1; ++i)
 		{
@@ -239,8 +238,7 @@ namespace world
 		unsigned char (*HeightMap)[Zmax] = new unsigned char[Xmax][Zmax];
 		uint8_t biomeID = m_biomeLib.GetRandomBiome().GetID();
 
-		int MaxHeight = m_biomeLib.GetBiomeData(biomeID).GetMaxHeight() / 2, MiddleX = 0, MiddleY = 0;
-		int MinHeight = (m_biomeLib.GetBiomeData(biomeID).GetMinHeightX() + m_biomeLib.GetBiomeData(biomeID).GetMinHeightZ()) / 2;
+		int MaxHeight = m_biomeLib.GetBiomeData(biomeID).GetMaxHeight() / 2;
 
 		memset(HeightMap, 0, sizeof(unsigned char) * Xmax * Zmax);
 		std::uniform_int_distribution<int> uniDistrib(1, 24);
@@ -281,11 +279,7 @@ namespace world
 							{
 								HeightMap[X2][Z2] += uint8_t(MaxHeight * std::exp(-((((X2 - demiMaxX) * (X2 - demiMaxX)) * pow1) + (((Z2 - demiMaxZ) * (Z2 - demiMaxZ)) * pow2))));
 								HeightMap[X2][Z2] = (HeightMap[X2][Z2] > MaxBiomeHeight ? MaxBiomeHeight : HeightMap[X2][Z2]);
-								HeightMap[X2][Z2] == MaxBiomeHeight ? Z2 = maxZ, Z - uniDistribOffset(m_random), X2 = maxX, X - uniDistribOffset(m_random) : 0;
-								if (Z < 0)
-									Z = 0;
-								if (X < 0)
-									X = 0;
+								HeightMap[X2][Z2] == MaxBiomeHeight ? Z2 = maxZ, X2 = maxX : 0;
 							}
 						}
 					}
@@ -409,16 +403,14 @@ namespace world
 			int(mathlib::Abs(playerPos.y / DefaultDepth)) > int(mathlib::Abs(m_previousPlayerPos.y / DefaultDepth))) &&
 			m_regionHeightMaps.size() > 1)
 		{
-			ThreadLib::PoolThread& pool = ThreadLib::PoolThread::getInstance();
 			std::pair<std::string, std::pair<std::pair<unsigned char(*)[Zmax], uint8_t>, vecs::Vec2>>* regionToClear = new std::pair<std::string, std::pair<std::pair<unsigned char(*)[Zmax], uint8_t>, vecs::Vec2>>[m_regionHeightMaps.size()];
 			int idx = 0;
 			vecs::Vec3 playerRegion = vecs::Vec3(floor(floor(playerPos.x / DefaultWidth) * DefaultWidth / (DefaultWidth * WIDTH_DEPTH_REGION_FILE)), 0.f, floor(floor(playerPos.y / DefaultDepth)  * DefaultDepth / (DefaultWidth * WIDTH_DEPTH_REGION_FILE)));
-			int viewDist1 = INISettings::viewDistance + 1;
 			m_genMutex.unlock();
 			for (auto& reg : m_regionHeightMaps)
 			{
 				vecs::Vec2 regionPos = reg.second.second;
-				if ((regionPos.x > playerRegion.x + DefaultWidth || regionPos.x < playerRegion.x - DefaultWidth) &&
+				if ((regionPos.x > playerRegion.x + DefaultWidth || regionPos.x < playerRegion.x - DefaultWidth) && 
 					(regionPos.y > playerRegion.z + DefaultWidth || regionPos.y < playerRegion.z - DefaultWidth))
 				{
 					regionToClear[idx] = reg;

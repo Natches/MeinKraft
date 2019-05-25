@@ -124,7 +124,7 @@ void GUI::BuildInvTextVAO()
 	glBindVertexArray(m_inventoryTextVAO);
 	glCreateBuffers(1, &m_inventoryTextVBO);
 	glCreateBuffers(1, &m_inventoryTextUVBO);
-
+	
 
 	std::vector<GLfloat> vboData;
 	vboData.reserve(size);
@@ -287,7 +287,7 @@ void GUI::BuildHotbarVAO()
 				TextUvboData.push_back(m_inventory->GetHotbar()[i]->GetText()->GetUVData()[j]);
 			}
 		}
-		if (m_inventory->GetSelectedHotbarSlotID() == i)
+		if ((unsigned)m_inventory->GetSelectedHotbarSlotID() == i)
 		{
 			for (unsigned int j = 0; j < m_inventory->GetHotbar()[i]->GetVertex().size(); ++j)
 			{
@@ -368,7 +368,7 @@ void GUI::BuildMenu()
 	glBufferData(GL_ARRAY_BUFFER, uvboData.size() * sizeof(GLfloat), uvboData.data(), GL_STATIC_DRAW);
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, NULL);
-
+	
 	GLuint m_titleVBO, m_titleUVBO;
 	glBindVertexArray(m_titleVAO);
 	glCreateBuffers(1, &m_titleVBO);
@@ -536,8 +536,7 @@ void GUI::Draw(Shader* shader)
 
 void GUI::SetInvTexture(const char * path)
 {
-	int x = 0, y = 0, n = 0;
-	int force_channels = 4;
+	int x = 0, y = 0;
 	unsigned char * image_data = SOIL_load_image(path, &x, &y, 0, SOIL_LOAD_RGBA);
 	//unsigned char* image_data = stbi_load(file_name, &x, &y, &n, force_channels);
 	if (!image_data) {
@@ -569,10 +568,9 @@ void GUI::SetInvTexture(const char * path)
 	SOIL_free_image_data(image_data);
 }
 
-void GUI::SetMenuTexture(char * path)
+void GUI::SetMenuTexture(const char * path)
 {
-	int x = 0, y = 0, n = 0;
-	int force_channels = 4;
+	int x = 0, y = 0;
 	unsigned char * image_data = SOIL_load_image(path, &x, &y, 0, SOIL_LOAD_RGBA);
 	//unsigned char* image_data = stbi_load(file_name, &x, &y, &n, force_channels);
 	if (!image_data) {

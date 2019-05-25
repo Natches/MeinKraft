@@ -37,7 +37,7 @@ public:
 	void Sprint();
 
 #pragma region Getters/Setters
-	inline Entity* const GetTarget() { return m_target; }
+	inline Entity* GetTarget() { return m_target; }
 
 	inline const	vecs::Vec3&			GetPosition()				const	{ return m_eye; }
 	inline const	matrix::Matrix4x4&	GetPerspective()			const	{ return m_prsp; }

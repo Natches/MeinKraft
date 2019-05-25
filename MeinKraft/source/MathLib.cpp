@@ -4,22 +4,22 @@
 
 namespace mathlib
 {
-	const float Dot(const Vec2& a, const Vec2& b)
+	float Dot(const Vec2& a, const Vec2& b)
 	{
 		return a.x * b.x + a.y * b.y;
 	}
 
-	const float Dot(const Vec3& a, const Vec3& b)
+	float Dot(const Vec3& a, const Vec3& b)
 	{
 		return a.x * b.x + a.y * b.y + a.z * b.z;
 	}
 
-	const float Dot(const Vec4 & a, const Vec4 & b)
+	float Dot(const Vec4 & a, const Vec4 & b)
 	{
 		return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 	}
 
-	const float Angle(const Vec2& a, const bool InRadian)
+	float Angle(const Vec2& a, const bool InRadian)
 	{
 		float res = 0.f;
 		if (a.y > EPSILON || a.y < -EPSILON)
@@ -34,22 +34,22 @@ namespace mathlib
 		return res;
 	}
 
-	const float Angle(const Vec2& a, const Vec2& b, const bool InRadian)
+	float Angle(const Vec2& a, const Vec2& b, const bool InRadian)
 	{
 		return InRadian ? (b.y < a.y ? -aCos((Dot(a, b) / Distance(a, b)))  : aCos((Dot(a, b) / Distance(a, b)))) : (b.y < a.y ? -aCos((Dot(a, b) / Distance(a, b))) * 180.f / (float)M_PI : aCos((Dot(a, b) / Distance(a, b))) * 180.f / (float)M_PI);
 	}
 
-	const float Angle(const Vec3& a, const Vec3& b, const bool InRadian)
+	float Angle(const Vec3& a, const Vec3& b, const bool InRadian)
 	{
 		return InRadian ? (b.y < a.y ? -aCos((Dot(a, b) / Distance(a, b))) : aCos((Dot(a, b) / Distance(a, b)))) : (b.y < a.y ? -aCos((Dot(a, b) / Distance(a, b))) * 180.f / (float)M_PI : aCos((Dot(a, b) / Distance(a, b))) * 180.f / (float)M_PI);
 	}
 
-	const Vec2 Rotate(const Vec2& a, const float angle)
+	Vec2 Rotate(const Vec2& a, const float angle)
 	{
 		return Vec2(a.x * cos(angle) - a.y * sin(angle), a.x * sin(angle) + a.y * cos(angle));
 	}
 
-	const Vec3 Rotate(const Vec3& a, const E_AXIS axis, const float AngleInDegree)
+	Vec3 Rotate(const Vec3& a, const E_AXIS axis, const float AngleInDegree)
 	{
 		switch (axis)
 		{
@@ -67,7 +67,7 @@ namespace mathlib
 		}
 	}
 
-	const Vec3 Cross(const Vec3& a, const Vec3& b)
+	Vec3 Cross(const Vec3& a, const Vec3& b)
 	{
 		Vec3 r = Vec3();
 		r.x = a.y * b.z - a.z * b.y;
@@ -76,101 +76,94 @@ namespace mathlib
 		return r;
 	}
 
-	const Vec4 Cross(const Vec4 & a, const Vec4 & b)
+	double Abs(double d)
 	{
-		//not implemented
-		assert(false);
-		return Vec4();
-	}
-
-	const double Abs(double d)
-	{
-		*((unsigned long long*)(&d)) &= 0x7fffffffffffffff;
+		*(reinterpret_cast<unsigned long long*>(&d)) &= 0x7fffffffffffffff;
 		return d;
 	}
 
-	const float Cross(const Vec2& a, const Vec2& b)
+	float Cross(const Vec2& a, const Vec2& b)
 	{
 		Vec3 v1(a), v2(b);
 
 		return Cross(v1, v2).z;
 	}
 
-	const float Distance(const Vec2& a, const Vec2& b)
+	float Distance(const Vec2& a, const Vec2& b)
 	{
 		return Magnitude(Direction(a, b));
 	}
 
-	const float Distance(const Vec3& a, const Vec3& b)
+	float Distance(const Vec3& a, const Vec3& b)
 	{
 		return Magnitude(Direction(a, b));
 	}
 
-	const float Distance(const Vec4& a, const Vec4& b)
+	float Distance(const Vec4& a, const Vec4& b)
 	{
 		return Magnitude(Direction(a, b));
 	}
 
-	const Vec2 Direction(const Vec2& src, const Vec2& dest)
+	Vec2 Direction(const Vec2& src, const Vec2& dest)
 	{
 		return dest - src;
 	}
 
-	const Vec3 Direction(const Vec3& src, const Vec3& dest)
+	Vec3 Direction(const Vec3& src, const Vec3& dest)
 	{
 		return dest - src;
 	}
 
-	const Vec4 Direction(const Vec4 & src, const Vec4 & dest)
+	Vec4 Direction(const Vec4 & src, const Vec4 & dest)
 	{
 		return dest - src;
 	}
 	
-	const Vec2 Normalize(const Vec2& v)
+	Vec2 Normalize(const Vec2& v)
 	{
 		float m = mathlib::Magnitude(v);
 		return (v / m);
 	}
 
-	const Vec3 Normalize(const Vec3& v)
+	Vec3 Normalize(const Vec3& v)
 	{
 		float m = mathlib::Magnitude(v);
 		return (v / m);
 	}
 
-	const Vec4 Normalize(const Vec4& v)
+	Vec4 Normalize(const Vec4& v)
 	{
 		float m = mathlib::Magnitude(v);
 		return (v / m);
 	}
 
-	const Quaternion Normalize(const Quaternion& q)
+	Quaternion Normalize(const Quaternion& q)
 	{
 		float length = 1.f / Magnitude(Vec4(q.m_vector3D, q.w)) ;
 		return Quaternion(q.m_vector3D.x * length, q.m_vector3D.y * length, q.m_vector3D.z * length, q.w * length);
 	}
 
-	const Vec4 Homogenize(const Vec4& v)
+	Vec4 Homogenize(const Vec4& v)
 	{
 		return (v / v.w);
 	}
 
-	const float Magnitude(const Vec2& v)
+	float Magnitude(const Vec2& v)
 	{
 		return sqrt(v.x * v.x + v.y * v.y);
 	}
 
-	const float Magnitude(const Vec3& v)
+	float Magnitude(const Vec3& v)
 	{
 		return sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 	}
 
-	const float Magnitude(const Vec4& v)
+	float Magnitude(const Vec4& v)
 	{
 		return sqrt(v.x * v.x + v.y * v.y + v.z * v.z + v.w * v.w);
 	}
 
-	const float	sqrt(const float n)
+	float	sqrt(const float n)
 	{
 		_asm
 		{
@@ -181,7 +174,7 @@ namespace mathlib
 		return n;
 	}
 
-	const float sin(const float n)
+	float sin(const float n)
 	{
 		_asm
 		{
@@ -192,7 +185,7 @@ namespace mathlib
 		return n;
 	}
 
-	const float cos(const float n)
+	float cos(const float n)
 	{
 		_asm
 		{
@@ -203,17 +196,17 @@ namespace mathlib
 		return n;
 	}
 
-	const vecs::Vec3 sin(const vecs::Vec3& v)
+	vecs::Vec3 sin(const vecs::Vec3& v)
 	{
 		return vecs::Vec3(sin(v.x), sin(v.y), sin(v.z));
 	}
 
-	const vecs::Vec3 cos(const vecs::Vec3& v)
+	vecs::Vec3 cos(const vecs::Vec3& v)
 	{
 		return vecs::Vec3(cos(v.x), cos(v.y), cos(v.z));
 	}
 
-	const float tan(const float n)
+	float tan(const float n)
 	{
 		_asm
 		{
@@ -225,7 +218,7 @@ namespace mathlib
 		return n;
 	}
 
-	const float aTan(const float n)
+	float aTan(const float n)
 	{
 		_asm
 		{
@@ -237,14 +230,14 @@ namespace mathlib
 		return n;
 	}
 
-	const float aSin(float n)
+	float aSin(float n)
 	{
 		n = sqrt(n*n / (1 - n*n));
 		n = aTan(n);
 		return n;
 	}
 
-	const float aCos(float n)
+	float aCos(float n)
 	{
 		n = sqrt((1 - n*n) / (n*n));
 		n = aTan(n);

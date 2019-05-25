@@ -21,11 +21,11 @@ namespace ExampleNamespace
 		~ExampleClass() {}
 
 	public:
-		void				MethodsWithNoParameter() const {}
-		inline const int	MethodThatReturnInt() {}
+		void		MethodsWithNoParameter() const {}
+		inline int	MethodThatReturnInt() { return 0; }
 
 	private:
-		void				MethodWithParameter(const double& value) {}
+		void				MethodWithParameter(const double& value) { (void)value; }
 #pragma endregion
 #pragma region Static Methods
 #pragma endregion

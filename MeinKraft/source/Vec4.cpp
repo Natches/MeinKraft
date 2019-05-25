@@ -1,9 +1,9 @@
 #include <xmemory>
 #include <iostream>
-#include <emmintrin.h>
+#include <immintrin.h>
 #include "Vec4.h"
 #include "Vec3.h"
-#include "mathlib.h"
+#include "MathLib.h"
 
 namespace vecs
 {
@@ -24,22 +24,22 @@ namespace vecs
 	bool Vec4::operator==(const Vec4& v)const
 	{
 		float tab[4] = { x, y, z, w }, tab2[4] = { v.x, v.y, v.z, v.w };
-		bool* i1 = (bool*)(&_mm_cmpeq_ps(_mm_loadu_ps(tab), _mm_loadu_ps(tab2)));
+		__m128 i1 = _mm_xor_ps(_mm_loadu_ps(tab), _mm_loadu_ps(tab2));
 		__asm
 		{
 			emms;
 		}
-		return (i1[0] && i1[1] && i1[2] && i1[3]);
+		return _mm_test_all_zeros(_mm_set1_epi32(0xFFFFFFFF), _mm_castps_si128(i1));
 	}
 	bool Vec4::operator!=(const Vec4& v)const
 	{
 		float tab[4] = { x, y, z, w }, tab2[4] = { v.x, v.y, v.z, v.w };
-		bool* i1 = (bool*)(&_mm_cmpneq_ps(_mm_loadu_ps(tab), _mm_loadu_ps(tab2)));
+		__m128 i1 = _mm_xor_ps(_mm_loadu_ps(tab), _mm_loadu_ps(tab2));
 		__asm
 		{
 			emms;
 		}
-		return (i1[0] && i1[1] && i1[2] && i1[3]);
+		return !_mm_test_all_zeros(_mm_set1_epi32(0xFFFFFFFF), _mm_castps_si128(i1));
 	}
 	Vec4 Vec4::operator+(const Vec4& v)const
 	{

@@ -116,6 +116,7 @@ namespace vecs
 
 	bool Vec3::operator<(const Vec3& a) const
 	{
+		(void)a;
 		return true;
 	}
 

@@ -14,8 +14,7 @@ Menu::Menu(Font* font, Game* game, GUI* gui):
 	m_buttons.push_back(new Button(std::bind(&Menu::CloseMenu, this), "Play", font, vecs::Vec2(0 - buttonDimensions.x / INISettings::windowWidth / 2, 0), buttonDimensions));
 	m_buttons.push_back(new Button(std::bind(&Game::ExitGame, m_game), "Quit", font, vecs::Vec2(0 - buttonDimensions.x / INISettings::windowWidth / 2, 0 - buttonDimensions.y/INISettings::windowHeight - QuitOffset / INISettings::windowHeight), buttonDimensions));
 	
-	int x = 0, y = 0, n = 0;
-	int force_channels = 4;
+	int x = 0, y = 0;
 	unsigned char * image_data = SOIL_load_image("Assets/title.png", &x, &y, 0, SOIL_LOAD_RGBA);
 	//unsigned char* image_data = stbi_load(file_name, &x, &y, &n, force_channels);
 	if (!image_data) {

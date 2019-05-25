@@ -34,7 +34,7 @@ void Player::Update()
 	m_inventory->Update();
 }
 
-void Player::SaveData(char * saveFilePath)
+void Player::SaveData(const char * saveFilePath)
 {
 	std::ofstream saveFile;
 	saveFile.open(saveFilePath);
@@ -55,7 +55,7 @@ void Player::SaveData(char * saveFilePath)
 	saveFile << m_currentLife;
 }
 
-void Player::LoadSave(char * saveFilePath)
+void Player::LoadSave(const char * saveFilePath)
 {
 	std::ifstream saveFile(saveFilePath);
 	if (saveFile.good())

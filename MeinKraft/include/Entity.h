@@ -56,14 +56,14 @@ protected:
 #pragma region Getters & Setters
 public:
 	inline CapsuleCollider&			GetCapsule()									{ return m_capsule; }
-	inline const vecs::Vec3			GetVerticalVelocity() const noexcept			{ return m_verticalVelocity; }
-	inline const vecs::Vec3			GetAcceleration() const noexcept				{ return m_acceleration; }
-	inline const short				GetCurrentLife() const noexcept					{ return m_currentLife; }
-	inline const short				GetMaxLife() const noexcept						{ return m_maxLife; }
-	inline const short				GetLifeRegeneration() const noexcept			{ return m_lifeRegeneration; }
-	inline const short				GetArmor() const noexcept						{ return m_armor; }
-	inline const short				GetBaseDamage() const noexcept					{ return m_baseDamage; }
-	inline const float				GetSpeed() const noexcept						{ return m_speed; }
+	inline vecs::Vec3			GetVerticalVelocity() const noexcept			{ return m_verticalVelocity; }
+	inline vecs::Vec3			GetAcceleration() const noexcept				{ return m_acceleration; }
+	inline short				GetCurrentLife() const noexcept					{ return m_currentLife; }
+	inline short				GetMaxLife() const noexcept						{ return m_maxLife; }
+	inline short				GetLifeRegeneration() const noexcept			{ return m_lifeRegeneration; }
+	inline short				GetArmor() const noexcept						{ return m_armor; }
+	inline short				GetBaseDamage() const noexcept					{ return m_baseDamage; }
+	inline float				GetSpeed() const noexcept						{ return m_speed; }
 	inline void						SetCapsule(CapsuleCollider& capsule)			{ m_capsule = capsule; }
 	inline void						AddAcceleration(const vecs::Vec3& acceleration) { m_acceleration += acceleration; }
 	inline void						SetAcceleration(const vecs::Vec3& acceleration) { m_acceleration = acceleration; }

@@ -13,6 +13,7 @@
 #include "TrivialStack.h"
 #include "TaskBase.h"
 
+
 namespace ThreadObjectSpace
 {
 	class ThreadObject

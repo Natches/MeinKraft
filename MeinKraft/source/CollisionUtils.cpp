@@ -31,6 +31,7 @@ namespace collisionutils
 
 	bool Intersects(const AABBCollider& c1, const AABBCollider& c2, vecs::Vec3& closestPoint)
 	{
+		(void)closestPoint;
 		bool x = abs(c1.GetCenter().x - c2.GetCenter().x) <= (c1.GetHalfWidths().x + c2.GetHalfWidths().x);
 		bool y = abs(c1.GetCenter().y - c2.GetCenter().y) <= (c1.GetHalfWidths().y + c2.GetHalfWidths().y);
 		bool z = abs(c1.GetCenter().z - c2.GetCenter().z) <= (c1.GetHalfWidths().z + c2.GetHalfWidths().z);

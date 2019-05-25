@@ -25,7 +25,7 @@ template<typename T>
 class TrivialStack
 {
 public:
-	TrivialStack() = default;
+	TrivialStack() { _size.store(0); };
 	~TrivialStack();
 
 	void pop();
@@ -33,8 +33,8 @@ public:
 	void push(T Data);
 	inline T top(){ std::unique_lock<std::mutex> lck(uniqueLockMutex); return first->getData(); }
 	T back();
-	inline const unsigned int size() { return _size.load(std::memory_order_acquire); }
-	inline const bool empty(){ return _size.load(std::memory_order_acquire)== 0; }
+	unsigned int size() { return _size.load(std::memory_order_acquire); }
+	bool empty(){ return _size.load(std::memory_order_acquire)== 0; }
 	inline std::mutex& getUniqueLockMutex() { return uniqueLockMutex; }
 	void Clear();
 
@@ -42,7 +42,7 @@ private:
 	TrivialStackNode<T>* first	= nullptr;
 	TrivialStackNode<T>* last	= nullptr;
 	std::mutex	uniqueLockMutex;
-	std::atomic<unsigned int> _size = 0;
+	std::atomic<unsigned int> _size;
 };
 
 #include "TrivialStackimpl.h"

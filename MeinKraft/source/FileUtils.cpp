@@ -24,7 +24,8 @@ void ResetCursorPos(std::stringstream& file)
 
 void JumpToNext(std::stringstream& fileStream)
 {
-	fileStream >> std::string();
+	std::string str("");
+	fileStream >> str;
 }
 
 void FindSTR(std::stringstream& sstr, std::string& str)

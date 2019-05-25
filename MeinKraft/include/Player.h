@@ -24,10 +24,10 @@ public:
 	void Init();
 
 	void Update();
-	void LoadSave(char* saveFilePath);
+	void LoadSave(const char * saveFilePath);
 
 private:
-	void SaveData(char* saveFilePath);
+	void SaveData(const char * saveFilePath);
 #pragma endregion
 #pragma region Static Methods
 #pragma endregion

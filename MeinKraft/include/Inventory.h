@@ -41,7 +41,7 @@ public:
 	void TakeSplitStack();
 	void Update();
 	bool AddItem(ItemStack *stack);
-	void ToggleInventory(GUI* gui);
+	void ToggleInventory();
 	inline void SelectHotbar(int item) 
 	{ 
 		m_selectedHotbarSlotID = item; 

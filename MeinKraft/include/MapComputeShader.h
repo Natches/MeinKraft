@@ -15,8 +15,8 @@ public:
 	virtual void InitID() override;
 	virtual bool CreateProgram() override;
 	bool CreateComputeShader(const std::string& FilePath);
-	virtual bool CreateVertexShader(const std::string& FilePath) override { return false; };
-	virtual bool CreateFragmentShader(const std::string& FilePath) override { return false; };
+	virtual bool CreateVertexShader(const std::string& FilePath) override { (void)FilePath; return false; };
+	virtual bool CreateFragmentShader(const std::string& FilePath) override { (void)FilePath; return false; };
 
 private:
 	std::string name;

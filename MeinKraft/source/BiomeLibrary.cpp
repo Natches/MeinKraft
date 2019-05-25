@@ -74,7 +74,6 @@ namespace biomes
 	void BiomeLibrary::LoadBlockList(std::stringstream& fileStream, BiomeData& data)
 	{
 		std::string word;
-		bool bracketOpened = false;
 		while (fileStream >> word && word.find(';') == std::string::npos)
 		{
 			if (word == "{")

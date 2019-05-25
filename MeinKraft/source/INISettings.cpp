@@ -1,7 +1,7 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
-#include "mathlib.h"
+#include "MathLib.h"
 #include "INISettings.h"
 #include "StringUtils.h"
 

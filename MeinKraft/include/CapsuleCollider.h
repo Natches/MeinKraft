@@ -25,8 +25,8 @@ public:
 #pragma region Getters & Setters
 public:
 	inline const vecs::Vec3&	GetCenter()		const	{ return m_center; }
-	inline const float			GetHalfHeight() const	{ return m_halfHeight; }
-	inline const float			GetRadius()		const	{ return m_radius; }
+	inline float			GetHalfHeight() const	{ return m_halfHeight; }
+	inline float			GetRadius()		const	{ return m_radius; }
 
 	inline void SetCenter(const vecs::Vec3& center)		{ m_center = center; }
 	inline void SetHalfHeight(const float halfHeight)	{ m_halfHeight = halfHeight; }

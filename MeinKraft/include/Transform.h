@@ -1,5 +1,5 @@
 #pragma once
-#include "mathlib.h"
+#include "MathLib.h"
 #include "Vec3.h"
 #include "Matrix4x4.h"
 #include "Quaternion.h"
@@ -44,9 +44,9 @@ public:
 	inline const Vec3&		GetPosition()	const				{ return m_position; }
 	inline const Vec3&		GetRotation()	const				{ return m_rotation; }
 	inline const Vec3&		GetScale ()		const				{ return m_scale; }
-	inline const Vec3		GetForward()						{ return mathlib::Normalize(rotation::CreateRotationQuaternion(m_rotation) * Vec3::Forward()); }
-	inline const Vec3		GetUp()								{ return mathlib::Normalize(rotation::CreateRotationQuaternion(m_rotation) * Vec4::Up()); }
-	inline const Vec3		GetRight()							{ return mathlib::Normalize(rotation::CreateRotationQuaternion(m_rotation) * Vec4::Right()); }
+	inline const Vec3		GetForward()						{ return mathlib::Normalize(vecs::Vec3(rotation::CreateRotationQuaternion(m_rotation).AsMatrix() * Vec4::Forward())); }
+	inline const Vec3		GetUp()								{ return mathlib::Normalize(vecs::Vec3(rotation::CreateRotationQuaternion(m_rotation).AsMatrix() * Vec4::Up())); }
+	inline const Vec3		GetRight()							{ return mathlib::Normalize(vecs::Vec3(rotation::CreateRotationQuaternion(m_rotation).AsMatrix() * Vec4::Right())); }
 	inline void				AddPosition(const Vec3& position)	{ m_position += position; m_isDirty = true; }
 	inline void				AddRotation(const Vec3& rotation)	{ m_rotation += rotation; m_isDirty = true; }
 	inline void				AddScale   (const Vec3& scale)		{ m_scale += scale; m_isDirty = true; }

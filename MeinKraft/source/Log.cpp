@@ -68,7 +68,7 @@ void Log::WriteMessage(const std::string& message, const e_Message_Type& message
 	std::string header;
 
 	ChooseHeader(header, messageType);
-	WriteLines(header, outputType, message, file, line);
+	WriteLines(header, message, file, line);
 }
 
 void Log::ChooseHeader(std::string& header, const e_Message_Type& messageType)
@@ -89,7 +89,7 @@ void Log::ChooseHeader(std::string& header, const e_Message_Type& messageType)
 	}
 }
 
-void Log::WriteLines(const std::string& header, const e_Output_Type& outputType, const std::string& message, const char* file, const int line)
+void Log::WriteLines(const std::string& header, const std::string& message, const char* file, const int line)
 {
 	switch (_outputType)
 	{

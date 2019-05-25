@@ -23,7 +23,7 @@ void SoundController::Init()
 	AddBlockSoundData(block::SNOW, BlockSoundData(BLOCK_SOUND_FOLDER + "snow2.ogg", BLOCK_SOUND_FOLDER + "snow1.ogg", BLOCK_SOUND_FOLDER + "snow3.ogg"));
 }
 
-void SoundController::AddBlockSoundData(const uint16_t ID, BlockSoundData& soundData)
+void SoundController::AddBlockSoundData(const uint16_t ID, BlockSoundData soundData)
 {
 	m_blockSounds[ID] = soundData;
 }

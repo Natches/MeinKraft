@@ -148,9 +148,8 @@ void Game::Run()
 	Init();
 	float color[4];
 	INISettings::backgroundColor.ToArray(color);
-	INISettings::backgroundColor;
 	m_menu->OpenMenu();
-	//FreeConsole();
+	FreeConsole();
 	while (glfwWindowShouldClose(mp_window) == 0)
 	{
 		Renderer::BackgroundColor(color);
@@ -198,10 +197,6 @@ void Game::Render()
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	matrix::Matrix4x4 m = m_camera->GetPerspective() * m_camera->LookAt(m_camera->GetTransform().GetPosition(), m_camera->GetTransform().GetPosition() + m_camera->GetTransform().GetForward(), vecs::Vec3(0, 1, 0));;
-
-	matrix::Matrix4x4 Test = matrix::CreatePositionMatrix(vecs::Vec3(25, 36, 9)) *
-		rotation::CreateRotationQuaternion(vecs::Vec3(0, 0, 0)).AsMatrix() *
-		matrix::CreateScaleMatrix(vecs::Vec3(1, 1, 1));
 
 	ShaderParameter s;
 	memcpy(s.mat, &m[0][0], sizeof(float) * 16);
@@ -271,7 +266,7 @@ void Game::ToggleInventory()
 {
 	Inputs::ToggleMouseLock();
 	Inputs::ToggleMouseVisibility();
-	m_player.GetInventory()->ToggleInventory(gui);
+	m_player.GetInventory()->ToggleInventory();
 	if (!m_player.GetInventory()->IsVisible())
 	{
 		Inputs::BindInput(GLFW_MOUSE_BUTTON_LEFT,	std::bind(&Game::BreakBlock, this), false);

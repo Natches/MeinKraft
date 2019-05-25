@@ -1,10 +1,10 @@
 #include <xmemory>
 #include <iostream>
-#include <emmintrin.h>
+#include <immintrin.h>
 #include <assert.h>
 #include "Matrix4x4.h"
 #include "Vec3.h"
-#include "mathlib.h"
+#include "MathLib.h"
 
 
 namespace matrix
@@ -130,40 +130,40 @@ namespace matrix
 
 	bool Matrix4x4::operator==(const Matrix4x4& m)const
 	{
-		bool* i1 = (bool*)(&_mm_cmpeq_ps(_mm_loadu_ps(&matrix[0][0]), _mm_loadu_ps(&m.matrix[0][0])));
-		bool* i2 = (bool*)(&_mm_cmpeq_ps(_mm_loadu_ps(&matrix[1][0]), _mm_loadu_ps(&m.matrix[1][0])));
-		bool* i3 = (bool*)(&_mm_cmpeq_ps(_mm_loadu_ps(&matrix[2][0]), _mm_loadu_ps(&m.matrix[2][0])));
-		bool* i4 = (bool*)(&_mm_cmpeq_ps(_mm_loadu_ps(&matrix[3][0]), _mm_loadu_ps(&m.matrix[3][0])));
+		__m128 i1 = _mm_xor_ps(_mm_loadu_ps(&matrix[0][0]), _mm_loadu_ps(&m.matrix[0][0]));
+		__m128 i2 = _mm_xor_ps(_mm_loadu_ps(&matrix[1][0]), _mm_loadu_ps(&m.matrix[1][0]));
+		__m128 i3 = _mm_xor_ps(_mm_loadu_ps(&matrix[2][0]), _mm_loadu_ps(&m.matrix[2][0]));
+		__m128 i4 = _mm_xor_ps(_mm_loadu_ps(&matrix[3][0]), _mm_loadu_ps(&m.matrix[3][0]));
 		__asm
 		{
 			emms;
 		}
-		return (i1[0] && i1[1] && i1[2] && i1[3] &&
-				i2[0] && i2[1] && i2[2] && i2[3] &&
-				i3[0] && i3[1] && i3[2] && i3[3] &&
-				i4[0] && i4[1] && i4[2] && i4[3]);
+		return (_mm_test_all_zeros(_mm_set1_epi32(0xFFFFFFFF), _mm_castps_si128(i1)) &&
+			_mm_test_all_zeros(_mm_set1_epi32(0xFFFFFFFF), _mm_castps_si128(i2)) &&
+			_mm_test_all_zeros(_mm_set1_epi32(0xFFFFFFFF), _mm_castps_si128(i3)) &&
+			_mm_test_all_zeros(_mm_set1_epi32(0xFFFFFFFF), _mm_castps_si128(i4)));
 	}
 	bool Matrix4x4::operator!=(const Matrix4x4& m)const
 	{
-		bool* i1 = (bool*)(&_mm_cmpneq_ps(_mm_loadu_ps(&matrix[0][0]), _mm_loadu_ps(&m.matrix[0][0])));
-		bool* i2 = (bool*)(&_mm_cmpneq_ps(_mm_loadu_ps(&matrix[1][0]), _mm_loadu_ps(&m.matrix[1][0])));
-		bool* i3 = (bool*)(&_mm_cmpneq_ps(_mm_loadu_ps(&matrix[2][0]), _mm_loadu_ps(&m.matrix[2][0])));
-		bool* i4 = (bool*)(&_mm_cmpneq_ps(_mm_loadu_ps(&matrix[3][0]), _mm_loadu_ps(&m.matrix[3][0])));
+		__m128 i1 = _mm_xor_ps(_mm_loadu_ps(&matrix[0][0]), _mm_loadu_ps(&m.matrix[0][0]));
+		__m128 i2 = _mm_xor_ps(_mm_loadu_ps(&matrix[1][0]), _mm_loadu_ps(&m.matrix[1][0]));
+		__m128 i3 = _mm_xor_ps(_mm_loadu_ps(&matrix[2][0]), _mm_loadu_ps(&m.matrix[2][0]));
+		__m128 i4 = _mm_xor_ps(_mm_loadu_ps(&matrix[3][0]), _mm_loadu_ps(&m.matrix[3][0]));
 		__asm
 		{
 			emms;
 		}
-		return (i1[0] && i1[1] && i1[2] && i1[3] &&
-				i2[0] && i2[1] && i2[2] && i2[3] && 
-				i3[0] && i3[1] && i3[2] && i3[3] && 
-				i4[0] && i4[1] && i4[2] && i4[3]);
+		return !(_mm_test_all_zeros(_mm_set1_epi32(0xFFFFFFFF), _mm_castps_si128(i1)) &&
+			_mm_test_all_zeros(_mm_set1_epi32(0xFFFFFFFF), _mm_castps_si128(i2)) &&
+			_mm_test_all_zeros(_mm_set1_epi32(0xFFFFFFFF), _mm_castps_si128(i3)) &&
+			_mm_test_all_zeros(_mm_set1_epi32(0xFFFFFFFF), _mm_castps_si128(i4)));
 	}
 
 	Matrix4x4 Matrix4x4::operator+(const Matrix4x4& m)const
 	{
 		Matrix4x4 mat;
 		_mm_storeu_ps(&mat.matrix[0][0], _mm_add_ps(_mm_loadu_ps(&matrix[0][0]), _mm_loadu_ps(&m.matrix[0][0])));
- 		_mm_storeu_ps(&mat.matrix[1][0], _mm_add_ps(_mm_loadu_ps(&matrix[1][0]), _mm_loadu_ps(&m.matrix[1][0])));
+		_mm_storeu_ps(&mat.matrix[1][0], _mm_add_ps(_mm_loadu_ps(&matrix[1][0]), _mm_loadu_ps(&m.matrix[1][0])));
 		_mm_storeu_ps(&mat.matrix[2][0], _mm_add_ps(_mm_loadu_ps(&matrix[2][0]), _mm_loadu_ps(&m.matrix[2][0])));
 		_mm_storeu_ps(&mat.matrix[3][0], _mm_add_ps(_mm_loadu_ps(&matrix[3][0]), _mm_loadu_ps(&m.matrix[3][0])));
 		__asm
@@ -576,18 +576,6 @@ namespace matrix
 		return *this;
 	}
 
-	Matrix4x4 Matrix4x4::operator/(const Matrix4x4& m)const
-	{
-		//not implemented;
-		assert(false);
-		return Matrix4x4(0.f);
-	}
-	Matrix4x4 Matrix4x4::operator/=(const Matrix4x4 & m)
-	{
-		//not implemented;
-		assert(false);
-		return Matrix4x4(0.f);
-	}
 	Matrix4x4 Matrix4x4::operator/(const float m)const
 	{
 		float tab[4] = { m, m, m, m };
@@ -616,18 +604,6 @@ namespace matrix
 			emms;
 		}
 		return *this;
-	}
-	Matrix4x4 Matrix4x4::operator/(const Vec4& m)const
-	{
-		//not implemented;
-		assert(false);
-		return Matrix4x4(0.f);
-	}
-	Matrix4x4 Matrix4x4::operator/=(const Vec4& m)
-	{
-		//not implemented;
-		assert(false);
-		return Matrix4x4(0.f);
 	}
 
 	float* Matrix4x4::operator[](const unsigned int n)

@@ -44,7 +44,6 @@ class GUI
 	GLuint				m_menuTexture;
 	GLuint				m_titleTexture;
 	bool				m_HasText;
-	bool				m_dirtyInventory;
 	bool				m_dirtyText;
 #pragma endregion
 #pragma region Non-Static Methods
@@ -64,19 +63,19 @@ public:
 #pragma endregion
 #pragma region Getters & Setters
 	void SetInvTexture(const char * path);
-	void SetMenuTexture(char * path);
+	void SetMenuTexture(const char * path);
 	inline void TextIsDirty() { m_dirtyText = true; }
 	inline void SetFont(Font* f) { m_font = f; }
 	inline void SetInventory(Inventory * inv) { m_inventory = inv; }
-	inline void SetMenu(Menu* menu)
-	{
-		m_menu = menu;
-		for (unsigned int i = 0; i < m_menu->GetButtons().size(); ++i)
-		{
-			m_menuText.push_back(m_menu->GetButtons()[i]->GetText());
-		}
-		BuildMenu();
-		BuildTextVAO();
+	inline void SetMenu(Menu* menu) 
+	{ 
+		m_menu = menu; 
+		for (unsigned int i = 0; i < m_menu->GetButtons().size(); ++i) 
+		{ 
+			m_menuText.push_back(m_menu->GetButtons()[i]->GetText()); 
+		} 
+		BuildMenu(); 
+		BuildTextVAO(); 
 	}
 	inline void SetTitleTexture(GLuint ID) { m_titleTexture = ID; }
 #pragma endregion

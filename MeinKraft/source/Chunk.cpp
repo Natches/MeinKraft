@@ -14,7 +14,7 @@ std::atomic<std::vector<std::string>*>	Chunk::OpenFile;
 const char*								Chunk::RegionDataFolder = "RegionData/";
 const char*								Chunk::RegionDataExtension = ".mrf";
 
-Chunk::Chunk(vecs::Vec3& Pos, uint8_t BiomeId)
+Chunk::Chunk(vecs::Vec3 Pos, uint8_t BiomeId)
 	: m_pos(Pos), m_biomeID(BiomeId)
 {
 	if (OpenFile.load(std::memory_order_acquire) == nullptr)
@@ -53,11 +53,11 @@ void Chunk::CreateChunk(const biomes::BiomeLibrary& biomeLib, const block::Block
 		std::pair<unsigned char(*)[Zmax], uint8_t>& HeightMapData = world.GetHeightMapData(vecs::Vec2(m_pos.x, m_pos.z));
 		m_biomeID = HeightMapData.second;
 		ParseHeightMapData(HeightMapData.first, biomeLib, blockLib);
-		OcclusionCheck(blockLib, world);
+		OcclusionCheck(blockLib);
 	}
 	else
 	{
-		OcclusionCheck(blockLib, world);
+		OcclusionCheck(blockLib);
 	}
 	GenerateVector(blockLib);
 	world.MoveChunkFromGenBufferToChunkBuffer(this);
@@ -65,7 +65,7 @@ void Chunk::CreateChunk(const biomes::BiomeLibrary& biomeLib, const block::Block
 	m_gen = true;
 }
 
-void Chunk::Render(const block::BlockLibrary& blockLib, CubeShader& shader, const ShaderParameter& param, world::World& w)
+void Chunk::Render(const block::BlockLibrary& blockLib, CubeShader& shader, const ShaderParameter& param)
 {
 	if (m_dirtyVBOsAndVector)
 	{
@@ -77,7 +77,7 @@ void Chunk::Render(const block::BlockLibrary& blockLib, CubeShader& shader, cons
 	}
 	glBindVertexArray(m_vao);
 	shader.Update(param);
-	glDrawArrays(GL_POINTS, 0, sizeVbo/4);
+	glDrawArrays(GL_POINTS, 0, VBO.size() / 4);
 }
 
 block::Block* Chunk::GetBlock(const vecs::Vec3& pos)
@@ -91,9 +91,8 @@ block::Block* Chunk::GetBlock(const vecs::Vec3& pos)
 void Chunk::ParseHeightMapData(unsigned char(*heightMap)[Zmax], const biomes::BiomeLibrary & biomeLib, const block::BlockLibrary & blockLib)
 {
 	int posX = mathlib::Abs((floor(m_pos.x / (DefaultWidth * WIDTH_DEPTH_REGION_FILE)) * DefaultWidth * WIDTH_DEPTH_REGION_FILE) - m_pos.x), posZ = mathlib::Abs(floor(m_pos.z / (DefaultWidth * WIDTH_DEPTH_REGION_FILE)) * DefaultWidth * WIDTH_DEPTH_REGION_FILE - m_pos.z);
-	int length = DefaultDepth * DefaultWidth * DefaultHeight;
 	std::pair<uint16_t, float>* availableBlock = new std::pair<uint16_t, float>[biomeLib.GetBiomeData(m_biomeID).GetLengthBlocklist()];
-	InitBlockToSort(availableBlock, biomeLib, blockLib);
+	InitBlockToSort(availableBlock, biomeLib);
 	for (int Y = 0; Y < DefaultHeight; ++Y)
 	{
 		SortAvailableBlock(Y, availableBlock, biomeLib, blockLib);
@@ -127,7 +126,7 @@ void Chunk::ParseHeightMapData(unsigned char(*heightMap)[Zmax], const biomes::Bi
 	delete[] availableBlock;
 }
 
-void Chunk::InitBlockToSort(std::pair<uint16_t, float>* sortedAvailableBlock, const biomes::BiomeLibrary& biomeLib, const block::BlockLibrary& blockLib)
+void Chunk::InitBlockToSort(std::pair<uint16_t, float>* sortedAvailableBlock, const biomes::BiomeLibrary& biomeLib)
 {
 	uint16_t length = biomeLib.GetBiomeData(m_biomeID).GetLengthBlocklist();
 	uint16_t* blockIdList = biomeLib.GetBiomeData(m_biomeID).GetBlockIDList();
@@ -162,7 +161,7 @@ void Chunk::SortAvailableBlock(int y, std::pair<uint16_t, float>* sortedAvailabl
 	}
 }
 
-void Chunk::OcclusionCheck(const block::BlockLibrary& blockLibrary, world::World& world)
+void Chunk::OcclusionCheck(const block::BlockLibrary& blockLibrary)
 {
 	int length = DefaultDepth * DefaultWidth * DefaultHeight;
 	for (int i = 0; i < length; ++i)
@@ -172,13 +171,12 @@ void Chunk::OcclusionCheck(const block::BlockLibrary& blockLibrary, world::World
 			m_blockArray[i].SetOcclState(block::Block::NONE);
 			vecs::Vec3 pos;
 			mathlib::To3D(i, DefaultWidth, DefaultHeight, pos);
-			block::Block* b = nullptr;
-			IsInBound(pos + vecs::Vec3(1, 0, 0)) ? (blockLibrary.GetBlockData(m_blockArray[mathlib::To1D(pos + vecs::Vec3(1, 0, 0), DefaultWidth, DefaultHeight)].GetID()).IsTransparent() ? m_blockArray[i].AddOcclState(block::Block::NONE) : m_blockArray[i].AddOcclState(block::Block::OCCLR)) : nullptr;
-			IsInBound(pos + vecs::Vec3(-1, 0, 0)) ? (blockLibrary.GetBlockData(m_blockArray[mathlib::To1D(pos + vecs::Vec3(-1, 0, 0), DefaultWidth, DefaultHeight)].GetID()).IsTransparent() ? m_blockArray[i].AddOcclState(block::Block::NONE) : m_blockArray[i].AddOcclState(block::Block::OCCLL)) : nullptr;
-			IsInBound(pos + vecs::Vec3(0, 1, 0)) ? (blockLibrary.GetBlockData(m_blockArray[mathlib::To1D(pos + vecs::Vec3(0, 1, 0), DefaultWidth, DefaultHeight)].GetID()).IsTransparent() ? m_blockArray[i].AddOcclState(block::Block::NONE) : m_blockArray[i].AddOcclState(block::Block::OCCLU)) : nullptr;
-			IsInBound(pos + vecs::Vec3(0, -1, 0)) ? (blockLibrary.GetBlockData(m_blockArray[mathlib::To1D(pos + vecs::Vec3(0, -1, 0), DefaultWidth, DefaultHeight)].GetID()).IsTransparent() ? m_blockArray[i].AddOcclState(block::Block::NONE) : m_blockArray[i].AddOcclState(block::Block::OCCLD)) : nullptr;
-			IsInBound(pos + vecs::Vec3(0, 0, 1)) ? (blockLibrary.GetBlockData(m_blockArray[mathlib::To1D(pos + vecs::Vec3(0, 0, 1), DefaultWidth, DefaultHeight)].GetID()).IsTransparent() ? m_blockArray[i].AddOcclState(block::Block::NONE) : m_blockArray[i].AddOcclState(block::Block::OCCLF)) : nullptr;
-			IsInBound(pos + vecs::Vec3(0, 0, -1)) ? (blockLibrary.GetBlockData(m_blockArray[mathlib::To1D(pos + vecs::Vec3(0, 0, -1), DefaultWidth, DefaultHeight)].GetID()).IsTransparent() ? m_blockArray[i].AddOcclState(block::Block::NONE) : m_blockArray[i].AddOcclState(block::Block::OCCLB)) : nullptr;
+			IsInBound(pos + vecs::Vec3(1, 0, 0)) ? (blockLibrary.GetBlockData(m_blockArray[mathlib::To1D(pos + vecs::Vec3(1, 0, 0), DefaultWidth, DefaultHeight)].GetID()).IsTransparent() ? m_blockArray[i].AddOcclState(block::Block::NONE) : m_blockArray[i].AddOcclState(block::Block::OCCLR)) : (void)0;
+			IsInBound(pos + vecs::Vec3(-1, 0, 0)) ? (blockLibrary.GetBlockData(m_blockArray[mathlib::To1D(pos + vecs::Vec3(-1, 0, 0), DefaultWidth, DefaultHeight)].GetID()).IsTransparent() ? m_blockArray[i].AddOcclState(block::Block::NONE) : m_blockArray[i].AddOcclState(block::Block::OCCLL)) : (void)0;
+			IsInBound(pos + vecs::Vec3(0, 1, 0)) ? (blockLibrary.GetBlockData(m_blockArray[mathlib::To1D(pos + vecs::Vec3(0, 1, 0), DefaultWidth, DefaultHeight)].GetID()).IsTransparent() ? m_blockArray[i].AddOcclState(block::Block::NONE) : m_blockArray[i].AddOcclState(block::Block::OCCLU)) : (void)0;
+			IsInBound(pos + vecs::Vec3(0, -1, 0)) ? (blockLibrary.GetBlockData(m_blockArray[mathlib::To1D(pos + vecs::Vec3(0, -1, 0), DefaultWidth, DefaultHeight)].GetID()).IsTransparent() ? m_blockArray[i].AddOcclState(block::Block::NONE) : m_blockArray[i].AddOcclState(block::Block::OCCLD)) : (void)0;
+			IsInBound(pos + vecs::Vec3(0, 0, 1)) ? (blockLibrary.GetBlockData(m_blockArray[mathlib::To1D(pos + vecs::Vec3(0, 0, 1), DefaultWidth, DefaultHeight)].GetID()).IsTransparent() ? m_blockArray[i].AddOcclState(block::Block::NONE) : m_blockArray[i].AddOcclState(block::Block::OCCLF)) : (void)0;
+			IsInBound(pos + vecs::Vec3(0, 0, -1)) ? (blockLibrary.GetBlockData(m_blockArray[mathlib::To1D(pos + vecs::Vec3(0, 0, -1), DefaultWidth, DefaultHeight)].GetID()).IsTransparent() ? m_blockArray[i].AddOcclState(block::Block::NONE) : m_blockArray[i].AddOcclState(block::Block::OCCLB)) : (void)0;
 		}
 		else if (blockLibrary.GetBlockData(m_blockArray[i].GetID()).IsTransparent())
 		{
@@ -228,7 +226,7 @@ void Chunk::ComputeLightLevel(int index, unsigned char temp[6], const block::Blo
 		temp[block::BlockData::E_FACE::LEFT] = MAX_LIGTH_LEVEL;
 		temp[block::BlockData::E_FACE::RIGHT] = MAX_LIGTH_LEVEL;
 		temp[block::BlockData::E_FACE::FORWARD] = MAX_LIGTH_LEVEL;
-		temp[block::BlockData::E_FACE::BACKWARD] = MAX_LIGTH_LEVEL;
+		temp[block::BlockData::E_FACE::BACKWARD] = MAX_LIGTH_LEVEL; 
 	}*/
 	if (!m_blockArray[index].IsSkyOccluded() && !blockLibrary.GetBlockData(m_blockArray[index].GetID()).IsIlluminating())
 	{
@@ -249,12 +247,12 @@ void Chunk::BlockOcclusionCheck(const vecs::Vec3& pos, const block::BlockLibrary
 		if (b->GetID() == block::AIR)
 		{
 			b->SetOcclState(block::Block::ALL);
-			IsInBoundGlobal(pos + vecs::Vec3(1, 0, 0)) ? (m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(1, 0, 0), DefaultWidth, DefaultHeight)].GetID() == block::AIR ? nullptr : m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(1, 0, 0), DefaultWidth, DefaultHeight)].RemoveOcclState(block::Block::OCCLL)) : nullptr;
-			IsInBoundGlobal(pos + vecs::Vec3(-1, 0, 0)) ? (m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(-1, 0, 0), DefaultWidth, DefaultHeight)].GetID() == block::AIR ? nullptr : m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(-1, 0, 0), DefaultWidth, DefaultHeight)].RemoveOcclState(block::Block::OCCLR)) : nullptr;
-			IsInBoundGlobal(pos + vecs::Vec3(0, 1, 0)) ? (m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(0, 1, 0), DefaultWidth, DefaultHeight)].GetID() == block::AIR ? nullptr : m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(0, 1, 0), DefaultWidth, DefaultHeight)].RemoveOcclState(block::Block::OCCLD)) : nullptr;
-			IsInBoundGlobal(pos + vecs::Vec3(0, -1, 0)) ? (m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(0, -1, 0), DefaultWidth, DefaultHeight)].GetID() == block::AIR ? nullptr : m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(0, -1, 0), DefaultWidth, DefaultHeight)].RemoveOcclState(block::Block::OCCLU)) : nullptr;
-			IsInBoundGlobal(pos + vecs::Vec3(0, 0, 1)) ? (m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(0, 0, 1), DefaultWidth, DefaultHeight)].GetID() == block::AIR ? nullptr : m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(0, 0, 1), DefaultWidth, DefaultHeight)].RemoveOcclState(block::Block::OCCLB)) : nullptr;
-			IsInBoundGlobal(pos + vecs::Vec3(0, 0, -1)) ? (m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(0, 0, -1), DefaultWidth, DefaultHeight)].GetID() == block::AIR ? nullptr : m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(0, 0, -1), DefaultWidth, DefaultHeight)].RemoveOcclState(block::Block::OCCLF)) : nullptr;
+			IsInBoundGlobal(pos + vecs::Vec3(1, 0, 0)) ? (m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(1, 0, 0), DefaultWidth, DefaultHeight)].GetID() == block::AIR ? (void)0 : m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(1, 0, 0), DefaultWidth, DefaultHeight)].RemoveOcclState(block::Block::OCCLL)) : (void)0;
+			IsInBoundGlobal(pos + vecs::Vec3(-1, 0, 0)) ? (m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(-1, 0, 0), DefaultWidth, DefaultHeight)].GetID() == block::AIR ? (void)0 : m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(-1, 0, 0), DefaultWidth, DefaultHeight)].RemoveOcclState(block::Block::OCCLR)) : (void)0;
+			IsInBoundGlobal(pos + vecs::Vec3(0, 1, 0)) ? (m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(0, 1, 0), DefaultWidth, DefaultHeight)].GetID() == block::AIR ? (void)0 : m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(0, 1, 0), DefaultWidth, DefaultHeight)].RemoveOcclState(block::Block::OCCLD)) : (void)0;
+			IsInBoundGlobal(pos + vecs::Vec3(0, -1, 0)) ? (m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(0, -1, 0), DefaultWidth, DefaultHeight)].GetID() == block::AIR ? (void)0 : m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(0, -1, 0), DefaultWidth, DefaultHeight)].RemoveOcclState(block::Block::OCCLU)) : (void)0;
+			IsInBoundGlobal(pos + vecs::Vec3(0, 0, 1)) ? (m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(0, 0, 1), DefaultWidth, DefaultHeight)].GetID() == block::AIR ? (void)0 : m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(0, 0, 1), DefaultWidth, DefaultHeight)].RemoveOcclState(block::Block::OCCLB)) : (void)0;
+			IsInBoundGlobal(pos + vecs::Vec3(0, 0, -1)) ? (m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(0, 0, -1), DefaultWidth, DefaultHeight)].GetID() == block::AIR ? (void)0 : m_blockArray[mathlib::To1D(pos - m_pos + vecs::Vec3(0, 0, -1), DefaultWidth, DefaultHeight)].RemoveOcclState(block::Block::OCCLF)) : (void)0;
 		}
 		else if(!blockLibrary.GetBlockData(b->GetID()).IsTransparent())
 		{
@@ -333,19 +331,6 @@ void Chunk::GenerateVAO()
 	glBindVertexArray(0);
 	m_dirtyVBOs = false;
 	m_dirtyVBOsAndVector = false;
-
-	sizeVbo = VBO.size(),
-		scaleVbo = SCALEVBO.size(),
-		textureVbo = TEXVBO.size(),
-		textureVbo2 = TEXVBO2.size();
-	VBO.clear();
-	SCALEVBO.clear();
-	TEXVBO.clear();
-	TEXVBO2.clear();
-	VBO.shrink_to_fit();
-	SCALEVBO.shrink_to_fit();
-	TEXVBO.shrink_to_fit();
-	TEXVBO2.shrink_to_fit();
 }
 
 void Chunk::GenerateVector(const block::BlockLibrary& blockLib)
@@ -357,7 +342,6 @@ void Chunk::GenerateVector(const block::BlockLibrary& blockLib)
 	/*LIGHTVBO.clear();
 	LIGHTVBO2.clear();*/
 	ComputeSkyOcclusion(blockLib);
-	int length = DefaultDepth * DefaultWidth * DefaultHeight;
 	int nb = 0;
 	block::Block same[1];
 	vecs::Vec3 multiplier;
@@ -445,6 +429,12 @@ void Chunk::GenerateVector(const block::BlockLibrary& blockLib)
 		TEXVBO2.push_back((unsigned char)blockLib.GetBlockData(same[0].GetID()).GetTextureID(block::BlockData::FORWARD));
 		TEXVBO2.push_back((unsigned char)blockLib.GetBlockData(same[0].GetID()).GetTextureID(block::BlockData::BACKWARD));
 	}
+	VBO.shrink_to_fit();
+	SCALEVBO.shrink_to_fit();
+	TEXVBO.shrink_to_fit();
+	TEXVBO2.shrink_to_fit();
+	/*LIGHTVBO.shrink_to_fit();
+	LIGHTVBO2.shrink_to_fit();*/
 }
 
 void Chunk::RegenerateVao(const block::BlockLibrary& blockLib)
@@ -491,7 +481,7 @@ bool Chunk::LoadChunkFromRegion(const block::BlockLibrary& blockLib)
 	{
 		file.clear();
 		int length = 0;
-		for (int nb = 0, nb2 = 0, seekNB = 0; nb < nbChunk;)
+		for (int nb = 0, seekNB = 0; nb < nbChunk;)
 		{
 			file >> str;
 			if (str == "[BEGIN]")
@@ -502,7 +492,8 @@ bool Chunk::LoadChunkFromRegion(const block::BlockLibrary& blockLib)
 				++nb;
 			}
 		}
-		FindSTR(file, std::string("[BEGIN]"));
+		std::string str("[BEGIN]");
+		FindSTR(file, str);
 		file.seekg(1, file.cur);
 		file.read((char*)&length, sizeof(int));
 		file.seekg(1, file.cur);
@@ -579,7 +570,7 @@ void Chunk::AddChunkToFile(std::stringstream& file)
 			std::stringstream buffer(std::fstream::binary | std::fstream::in | std::fstream::out);
 			file.clear();
 			int seekNB = 0;
-			for (int nb = 0, nb2 = 0; nb < nbChunk;)
+			for (int nb = 0; nb < nbChunk;)
 			{
 				file >> str;
 				if (str == "[BEGIN]")
@@ -594,7 +585,8 @@ void Chunk::AddChunkToFile(std::stringstream& file)
 
 			if (exist)
 			{
-				FindSTR(file, std::string("[BEGIN]"));
+				std::string str("[BEGIN]");
+				FindSTR(file, str);
 				file.seekg(1, file.cur);
 				file.read((char*)&seekNB, sizeof(int));
 				file.seekg(seekNB, file.cur);

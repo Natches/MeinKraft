@@ -9,7 +9,7 @@ namespace collisionutils
 		vecs::Vec3 m_origin;
 		vecs::Vec3 m_direction;
 
-		Ray::Ray(const vecs::Vec3& origin, const vecs::Vec3& dir);
+		Ray(const vecs::Vec3& origin, const vecs::Vec3& dir);
 	};
 
 	bool Intersects(const SphereCollider& c1, const SphereCollider& c2, vecs::Vec3& closestPoint);

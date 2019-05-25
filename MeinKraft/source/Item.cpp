@@ -2,12 +2,13 @@
 
 
 
-Item::Item(float X, float Y, char ID, char* name):
+Item::Item(float X, float Y, char ID, const char* name):
 	m_XPosInTexture(X),
 	m_YPosInTexture(Y),
-	m_ID(ID),
-	m_name(name)
+	m_name(name),
+	m_ID(ID)
 {
+	(void)m_ID;
 }
 
 

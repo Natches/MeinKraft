@@ -24,6 +24,9 @@ Inputs::~Inputs()
 
 void Inputs::KeyCallBack(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+	(void)window;
+	(void)mods;
+	(void)scancode;
 	if (key != GLFW_KEY_UNKNOWN) 
 	{ 
 		m_keyData[key].oldState = m_keyData[key].state;
@@ -113,7 +116,7 @@ void Inputs::UpdateInputs()
 	{
 		if (it->second.isToggle)
 		{
-			if (it->second.state == GLFW_RELEASE && it->second.oldState == GLFW_PRESS || it->second.oldState == GLFW_REPEAT)
+			if ((it->second.state == GLFW_RELEASE && it->second.oldState == GLFW_PRESS) || it->second.oldState == GLFW_REPEAT)
 			{
 				if (it->second.func)
 				{
@@ -147,5 +150,7 @@ void Inputs::BindInput(const KEY_CODE key, const std::function<void()>& func, bo
 
 void Inputs::ScrollCallBack(GLFWwindow* window, double xoffset, double yoffset)
 {
+	(void)xoffset;
+	(void)window;
 	m_scrollState = (int)yoffset;
 }

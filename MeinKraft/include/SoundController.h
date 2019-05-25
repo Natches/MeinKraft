@@ -48,7 +48,7 @@ public:
 	~SoundController();
 
 public:
-	void			AddBlockSoundData(const uint16_t ID, BlockSoundData& soundData);
+	void			AddBlockSoundData(const uint16_t ID, BlockSoundData soundData);
 	void			Init();
 
 	BlockSoundData&		GetBlockSoundData(uint16_t ID);

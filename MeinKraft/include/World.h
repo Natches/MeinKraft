@@ -1,7 +1,7 @@
 #pragma once
 #include <mutex>
 #include <random>
-#include "gl/glew.h"
+#include "GL/glew.h"
 #include "BlockLibrary.h"
 #include "ShaderLib.h"
 #include "BiomeLibrary.h"
@@ -10,7 +10,7 @@
 #include "SoundController.h"
 
 #define HEIGHT_OFFSET 1u
-#define TIME_BEFORE_GC 120 //in Generation Call
+#define TIME_BEFORE_GC 100 //in Generation Call
 #define MULTIPLIER_BEHIND_US_FOR_RENDERING 3
 
 #define WIDTH_DEPTH_REGION_FILE 3
@@ -18,8 +18,8 @@
 #define MAX_LIGTH_LEVEL 5
 #define MIN_LIGTH_LEVEL 1
 
-constexpr int DefaultDepth = 128;
-constexpr int DefaultWidth = 128;
+constexpr int DefaultDepth = 32;
+constexpr int DefaultWidth = 32;
 constexpr int DefaultHeight = 172;
 constexpr int Xmax = DefaultWidth * WIDTH_DEPTH_REGION_FILE;
 constexpr int Zmax = DefaultDepth * WIDTH_DEPTH_REGION_FILE;
@@ -62,7 +62,7 @@ namespace world
 		void GenerateChunk(const vecs::Vec2& pos);
 		void ClearFarChunk(const vecs::Vec2& playerPos);
 		void ClearFarRegion(const vecs::Vec2& playerPos);
-
+		
 	private:
 		ShaderLib						m_shaderLib;
 		biomes::BiomeLibrary			m_biomeLib;

@@ -15,6 +15,7 @@ bool Shader2D::Init()
 
 void Shader2D::Update(const ShaderParameter & param)
 {
+	(void)param;
 	glUseProgram(m_programID);
 }
 

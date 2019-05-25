@@ -28,6 +28,6 @@ namespace block
 				m_genPercent.insert(std::make_pair(uint16_t(idx), ((a * idx) + b)));
 			}
 		}
-		delete i;
+		delete[] i;
 	}
 }

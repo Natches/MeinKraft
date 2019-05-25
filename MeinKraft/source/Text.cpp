@@ -1,21 +1,23 @@
 #include "Text.h"
 #include <typeinfo>
 
+#undef ATLAS_COLS
+#undef ATLAS_ROWS
 #define ATLAS_COLS 10
 #define ATLAS_ROWS 10
 #define CHAR_SEPARATION 20.f
 
 Text::Text(std::string string, Font * font, float heightOfLetter, vecs::Vec2 position)
 	:m_string(string),
-	m_font(font),
 	m_position(position),
+	m_font(font),
 	m_heightOfChar(heightOfLetter)
 {
 	int len = string.length();
 	vertexData.clear();
 	UVData.clear();
-	//vertexData.reserve(len * 12);
-	//UVData.reserve(len * 12);
+	vertexData.reserve(len * 12);
+	UVData.reserve(len * 12);
 	for (int i = 0; i < len; i++) {
 		// get ascii code as integer
 		int ascii_code = string[i];

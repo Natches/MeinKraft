@@ -6,7 +6,7 @@
 #define ATLAS_COLS 16
 #define ATLAS_ROWS 16
 
-Renderer2D::Renderer2D(GameObject& gameObject,vecs::Vec4 colour) :
+Renderer2D::Renderer2D(vecs::Vec4 colour) :
 	m_colour(colour)
 {
 	glCullFace(GL_BACK); // cull back face

@@ -11,7 +11,7 @@ namespace TaskThreadLib
 			TaskBase() = default;
 			virtual ~TaskBase() = default;
 
-			inline const bool IsRenderTask()const { return isRenderTask; }
+			bool IsRenderTask()const { return isRenderTask; }
 
 			virtual inline void Function() = 0;
 

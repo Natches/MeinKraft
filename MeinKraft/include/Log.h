@@ -60,7 +60,7 @@ private:
 	void		CloseFile		();
 	void		OpenFile		();
 	void		ChooseHeader	(std::string& header, const e_Message_Type& messageType);
-	void		WriteLines		(const std::string& header, const e_Output_Type& outputType, const std::string& message, const char* file, const int line);
+	void		WriteLines		(const std::string& header, const std::string& message, const char* file, const int line);
 	std::string	ParseCurrentTime();
 #pragma endregion
 };

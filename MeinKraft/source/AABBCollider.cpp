@@ -25,6 +25,16 @@ bool AABBCollider::Intersects(const Collider& collider, vecs::Vec3& closestPoint
 	case E_COLLIDER_TYPE::AABB:
 		hasIntersected = collisionutils::Intersects(*dynamic_cast<const AABBCollider*>(&collider), *this, closestPoint);
 		break;
+	case E_COLLIDER_TYPE::RAY:
+		break;
+	case E_COLLIDER_TYPE::TRIANGLE:
+		break;
+	case E_COLLIDER_TYPE::PLAN:
+		break;
+	case E_COLLIDER_TYPE::OBB:
+		break;
+	case E_COLLIDER_TYPE::CAPSULE:
+		break;
 	}
 	return hasIntersected;
 }

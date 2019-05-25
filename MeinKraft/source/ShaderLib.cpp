@@ -11,7 +11,7 @@ ShaderLib::~ShaderLib()
 	}
 }
 
-void ShaderLib::LoadShaders(const unsigned int shaderCount, Shader*...)
+void ShaderLib::LoadShaders(const unsigned int shaderCount, ...)
 {
 	va_list args;
 	va_start(args, shaderCount);

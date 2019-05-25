@@ -1,4 +1,4 @@
-    #pragma once
+	#pragma once
 #include <iostream>
 
 namespace vecs
@@ -37,7 +37,7 @@ namespace vecs
 		Vec2 operator/		(const float s) const;
 		Vec2& operator/=	(const float s);
 
-		inline Vec2 operator-		() { return *this * -1; }
+		Vec2 operator-		() { return *this * -1; }
 		void ToArray(float array[2]);
 
 		inline static const Vec2 Zero() { return Vec2(); }

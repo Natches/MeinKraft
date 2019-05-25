@@ -15,7 +15,7 @@ public:
 #pragma region Static Attributes
 #pragma endregion
 #pragma region Non-Static Methods
-	void LoadShaders(const unsigned int shaderCount, Shader*...);
+	void LoadShaders(const unsigned int shaderCount, ...);
 	void Clean();
 #pragma endregion
 #pragma region Static Methods
