@@ -42,4 +42,4 @@ This final noise was used as a Heightmap for a region and each pixel were a cube
 
 ### Issue:
 Currently, we can see the border of each region, I tried , at the time, to correct this by blurring each border of each region by creating a subspace where the two border were connected, but this was not very succesful.
-Now, I know that I need to use some interpolation algorithm such as Bezier's Curves, this gonna be implemented soon.
+Now, I know that I need to use some interpolation algorithm such as Bezier's Curves.
